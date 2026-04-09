@@ -91,7 +91,7 @@ $is_preview = $is_preview ?? false;
                         <a
                             href="{{ esc_url($url) }}"
                             target="{{ esc_attr($target) }}"
-                            class="{{ $loop->first ? 'btn' : 'btn btn-ghost white' }}"
+                            class="{{ $loop->first ? 'btn' : 'btn-ghost white' }}"
                             rel="{{ $target === '_blank' ? 'noopener noreferrer' : '' }}">
                             {{ esc_html($button_title) }}
                         </a>
