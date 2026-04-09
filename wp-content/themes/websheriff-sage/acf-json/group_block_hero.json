@@ -1,0 +1,502 @@
+{
+    "key": "group_block_hero",
+    "title": "Block: Hero",
+    "fields": [
+        {
+            "key": "field_hero_layout",
+            "label": "Layout",
+            "name": "hero_layout",
+            "type": "button_group",
+            "instructions": "Overlay: full-width image background (original). Split: two columns — text left, stats / icons / or image slider right.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "choices": {
+                "overlay": "Overlay",
+                "split": "Split"
+            },
+            "default_value": "overlay",
+            "return_format": "value",
+            "allow_null": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_hero_gallery",
+            "label": "Images",
+            "name": "gallery",
+            "type": "gallery",
+            "instructions": "Background images (overlay layout). Multiple images fade every 5 seconds.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "overlay"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "return_format": "array",
+            "library": "all",
+            "preview_size": "medium",
+            "insert": "append",
+            "min": "",
+            "max": ""
+        },
+        {
+            "key": "field_hero_split_badge",
+            "label": "Badge (split)",
+            "name": "split_badge",
+            "type": "text",
+            "instructions": "Small pill above the title (e.g. product line).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_hero_split_title_highlight",
+            "label": "Title highlight (split)",
+            "name": "split_title_highlight",
+            "type": "text",
+            "instructions": "Optional. Shown after the main title in accent colour (e.g. “Salesforce org?”).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_hero_split_show_breadcrumb",
+            "label": "Show breadcrumb (split)",
+            "name": "split_show_breadcrumb",
+            "type": "true_false",
+            "instructions": "Rank Math breadcrumb above the title (hidden on the site front page).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": 1,
+            "ui": 1
+        },
+        {
+            "key": "field_hero_split_visual",
+            "label": "Right column (split)",
+            "name": "split_visual",
+            "type": "button_group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "choices": {
+                "stats": "Stats panel",
+                "icons": "Icons",
+                "images": "Images"
+            },
+            "default_value": "stats",
+            "return_format": "value",
+            "allow_null": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_hero_split_stats_header",
+            "label": "Stats panel header",
+            "name": "split_stats_header",
+            "type": "text",
+            "instructions": "Small caps line above the rows.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "stats"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "SCAN RESULTATEN — ACME CORP"
+        },
+        {
+            "key": "field_hero_split_stats_rows",
+            "label": "Stats rows",
+            "name": "split_stats_rows",
+            "type": "repeater",
+            "instructions": "Icon: Font Awesome classes, e.g. fa-solid fa-triangle-exclamation",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "stats"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_hero_split_stat_title",
+            "button_label": "Add row",
+            "sub_fields": [
+                {
+                    "key": "field_hero_split_stat_tone",
+                    "label": "Tone",
+                    "name": "tone",
+                    "type": "select",
+                    "required": 0,
+                    "wrapper": {"width": "25", "class": "", "id": ""},
+                    "choices": {
+                        "critical": "Critical",
+                        "warning": "Warning",
+                        "success": "Success"
+                    },
+                    "default_value": "warning",
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 1,
+                    "parent_repeater": "field_hero_split_stats_rows"
+                },
+                {
+                    "key": "field_hero_split_stat_icon",
+                    "label": "Font Awesome classes",
+                    "name": "icon_class",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": {"width": "75", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": "fa-solid fa-circle-exclamation",
+                    "parent_repeater": "field_hero_split_stats_rows"
+                },
+                {
+                    "key": "field_hero_split_stat_title",
+                    "label": "Title",
+                    "name": "row_title",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_hero_split_stats_rows"
+                },
+                {
+                    "key": "field_hero_split_stat_subtitle",
+                    "label": "Subtitle",
+                    "name": "row_subtitle",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_hero_split_stats_rows"
+                },
+                {
+                    "key": "field_hero_split_stat_value",
+                    "label": "Value",
+                    "name": "row_value",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": "24",
+                    "parent_repeater": "field_hero_split_stats_rows"
+                }
+            ]
+        },
+        {
+            "key": "field_hero_split_stats_progress",
+            "label": "Progress (%)",
+            "name": "split_stats_progress",
+            "type": "number",
+            "instructions": "0–100 for the bar under the stats.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "stats"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "33", "class": "", "id": ""},
+            "default_value": 80,
+            "min": 0,
+            "max": 100,
+            "step": 1
+        },
+        {
+            "key": "field_hero_split_stats_progress_label",
+            "label": "Progress label",
+            "name": "split_stats_progress_label",
+            "type": "text",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "stats"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "66", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "Analyseert 224 configuratie-items…"
+        },
+        {
+            "key": "field_hero_split_icon_items",
+            "label": "Icons",
+            "name": "split_icon_items",
+            "type": "repeater",
+            "instructions": "Font Awesome classes per item (e.g. fa-brands fa-salesforce).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "icons"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "button_label": "Add icon",
+            "sub_fields": [
+                {
+                    "key": "field_hero_split_icon_class",
+                    "label": "FA classes",
+                    "name": "icon_class",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_hero_split_icon_items"
+                },
+                {
+                    "key": "field_hero_split_icon_label",
+                    "label": "Label",
+                    "name": "icon_label",
+                    "type": "text",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_hero_split_icon_items"
+                }
+            ]
+        },
+        {
+            "key": "field_hero_split_visual_gallery",
+            "label": "Images (right column)",
+            "name": "split_visual_gallery",
+            "type": "gallery",
+            "instructions": "One image or several with slider + scrollbar (like Text media).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    },
+                    {
+                        "field": "field_hero_split_visual",
+                        "operator": "==",
+                        "value": "images"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "return_format": "array",
+            "library": "all",
+            "preview_size": "medium",
+            "insert": "append",
+            "min": "",
+            "max": ""
+        },
+        {
+            "key": "field_69a6f4af3405c",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_69a6f4b23405d",
+            "label": "Text",
+            "name": "text",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_hero_split_cta",
+            "label": "Primary button (split)",
+            "name": "split_cta",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "return_format": "array"
+        },
+        {
+            "key": "field_hero_split_cta_note",
+            "label": "Button note (split)",
+            "name": "split_cta_note",
+            "type": "text",
+            "instructions": "Short line beside the button (e.g. “Geen installatie vereist.”).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "split"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_69a6f4b73405e",
+            "label": "Buttons",
+            "name": "buttons",
+            "type": "repeater",
+            "instructions": "Overlay layout only.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero_layout",
+                        "operator": "==",
+                        "value": "overlay"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_69a6f4bc3405f",
+                    "label": "Button",
+                    "name": "button",
+                    "type": "link",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "return_format": "array",
+                    "parent_repeater": "field_69a6f4b73405e"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/hero"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775000000
+}

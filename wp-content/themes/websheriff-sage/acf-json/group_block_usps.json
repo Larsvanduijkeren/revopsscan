@@ -1,0 +1,96 @@
+{
+    "key": "group_block_usps",
+    "title": "Block: USPs",
+    "fields": [
+        {
+            "key": "field_usps_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "instructions": "Optional line above the headline.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_usps_title",
+            "label": "Headline",
+            "name": "title",
+            "type": "text",
+            "instructions": "Centered above the USP columns.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_usps_items",
+            "label": "USPs",
+            "name": "items",
+            "type": "repeater",
+            "instructions": "Maximum five items on large screens.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 5,
+            "collapsed": "field_usps_item_title",
+            "button_label": "Add USP",
+            "sub_fields": [
+                {
+                    "key": "field_usps_item_icon",
+                    "label": "Font Awesome classes",
+                    "name": "icon_class",
+                    "type": "text",
+                    "instructions": "e.g. fa-solid fa-clock",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": "fa-solid fa-circle-check"
+                },
+                {
+                    "key": "field_usps_item_title",
+                    "label": "Title",
+                    "name": "usp_title",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_usps_item_text",
+                    "label": "Text",
+                    "name": "usp_text",
+                    "type": "textarea",
+                    "instructions": "Short supporting copy.",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "rows": 3,
+                    "new_lines": "br"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/usps"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775300000
+}

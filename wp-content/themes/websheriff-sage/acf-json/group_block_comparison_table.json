@@ -1,0 +1,46 @@
+{
+    "key": "group_block_comparison_table",
+    "title": "Block: Comparison table",
+    "fields": [
+        {
+            "key": "field_ct_title",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "instructions": "Optional. Centered above the table (e.g. Side by side).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_ct_table",
+            "label": "Comparison table",
+            "name": "comparison_table",
+            "type": "table",
+            "instructions": "Enable “Use table header”. Row 1 in the editor: column 1 = label (e.g. Feature), other columns = plan names. Body rows: first column = feature name; other cells: type + for included (green dot), - or leave empty for not included (gray dot), or any other text (e.g. 1, Unlimited).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "use_header": 1,
+            "use_caption": 2
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/comparison-table"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775200000
+}

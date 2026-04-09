@@ -1,0 +1,157 @@
+{
+    "key": "group_block_post_selection",
+    "title": "Block: Post selection",
+    "fields": [
+        {
+            "key": "field_ps_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_ps_title",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_ps_intro",
+            "label": "Intro",
+            "name": "intro",
+            "type": "wysiwyg",
+            "instructions": "Optional text below the title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "tabs": "visual",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_ps_source",
+            "label": "Posts source",
+            "name": "post_selection_source",
+            "type": "button_group",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "choices": {
+                "category": "Category",
+                "manual": "Manual",
+                "recent": "Recent"
+            },
+            "default_value": "recent",
+            "return_format": "value",
+            "allow_null": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_ps_categories",
+            "label": "Categories",
+            "name": "post_categories",
+            "type": "taxonomy",
+            "instructions": "Posts in any of the selected categories.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_ps_source",
+                        "operator": "==",
+                        "value": "category"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "taxonomy": "category",
+            "field_type": "multi_select",
+            "allow_null": 0,
+            "add_term": 0,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id",
+            "multiple": 0
+        },
+        {
+            "key": "field_ps_posts",
+            "label": "Posts",
+            "name": "selected_posts",
+            "type": "relationship",
+            "instructions": "Order is preserved in the slider.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_ps_source",
+                        "operator": "==",
+                        "value": "manual"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "post_type": ["post"],
+            "taxonomy": "",
+            "filters": ["search"],
+            "elements": "",
+            "min": "",
+            "max": "",
+            "return_format": "object",
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_ps_posts_per_page",
+            "label": "Number of posts",
+            "name": "posts_per_page",
+            "type": "number",
+            "instructions": "For category and recent sources.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_ps_source",
+                        "operator": "==",
+                        "value": "category"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_ps_source",
+                        "operator": "==",
+                        "value": "recent"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": 8,
+            "min": 2,
+            "max": 24,
+            "step": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/post-selection"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775400000
+}

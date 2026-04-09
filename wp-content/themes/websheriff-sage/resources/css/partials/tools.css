@@ -1,0 +1,267 @@
+.container {
+  max-width: 1600px;
+  padding: 120px 40px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+
+  &.narrow {
+    max-width: 1200px;
+  }
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+#app {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  >* {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  /* Sticky footer: fill space between header chrome and footer when content is short */
+  > #main.page-content {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  &>.social-bar {
+    margin-top: auto;
+  }
+}
+
+/* Match header.css: admin bar visible from 1200px; WP adds html margin-top 32px — subtract from flex column so footer sits at viewport bottom without extra scroll */
+@media only screen and (min-width: 1200px) {
+  .admin-bar #app {
+    min-height: calc(100vh - 32px);
+    min-height: calc(100dvh - 32px);
+  }
+}
+
+.intro {
+  max-width: 700px;
+  margin-bottom: 40px;
+
+  >*:last-child {
+    margin-bottom: 0;
+  }
+
+  &.center {
+    text-align: center;
+    margin: 0 auto 40px auto;
+  }
+}
+
+.pagination {
+  flex-basis: 100%;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 32px;
+  margin-bottom: 0;
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+
+    &::before {
+      content: none;
+    }
+
+    a,
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      padding: 0 14px;
+      background: var(--brand-surface-raised);
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      color: var(--brand-text);
+      text-decoration: none;
+      box-shadow: var(--shadow-card);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    a:hover,
+    a:focus {
+      background: var(--brand-purple);
+      color: var(--brand-on-inverse);
+    }
+
+    span.current {
+      background: var(--brand-purple);
+      color: var(--brand-on-inverse);
+      cursor: default;
+    }
+
+    a.prev,
+    a.next {
+      min-width: auto;
+    }
+
+    span.dots {
+      background: transparent;
+      box-shadow: none;
+      cursor: default;
+      color: var(--brand-purple-soft);
+    }
+  }
+}
+
+.progress {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background: var(--brand-grey);
+  margin-top: 40px;
+  border-radius: 2px;
+
+  .line {
+    width: 0;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background: var(--brand-purple);
+    transition: width 0.3s ease-in-out;
+    border-radius: 2px;
+  }
+}
+
+.iframe-wrapper {
+  position: relative;
+  display: block;
+
+  iframe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  &:before {
+    content: '';
+    padding-top: 56.25%;
+    display: block;
+  }
+}
+
+.contact-information {
+
+  span,
+  a {
+    display: block;
+  }
+
+  a {
+    font-weight: 400;
+    text-decoration: underline;
+  }
+
+  .social {
+    margin-top: 20px;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+.page-content {
+  padding-top: 100px;
+  background: var(--brand-grey);
+
+  section:not(.hero):first-child {
+    margin-top: -80px;
+  }
+
+  @media only screen and (max-width: 991px) {
+    padding-top: 80px;
+
+    section:first-child {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+.social a {
+  position: relative;
+  border-radius: 100%;
+  color: var(--brand-dark-purple) !important;
+  font-size: 0;
+  transition: background 0.3s ease-in-out;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--brand-dark-purple);
+  display: inline-flex;
+  margin-right: 5px;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:focus {
+    background: var(--brand-page);
+
+    &::before {
+      color: var(--brand-on-inverse);
+    }
+  }
+
+  &::before {
+    font-style: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-size: 1.5rem;
+    transition: color 0.3s ease-in-out;
+  }
+
+  &.linkedin::before {
+    font-family: 'Font Awesome 6 Brands', sans-serif;
+    font-weight: 400;
+    content: '\f0e1';
+  }
+
+  &.email::before {
+    font-family: 'Font Awesome 6 Free', sans-serif;
+    font-weight: 900;
+    content: '\f0e0';
+    font-size: 1.4rem;
+  }
+}
+
+button.lity-close::after {
+  content: none !important;
+}
+
+@media only screen and (max-width: 991px) {
+  .container {
+    padding: 60px 20px !important;
+  }
+}

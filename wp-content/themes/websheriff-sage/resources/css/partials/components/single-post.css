@@ -1,0 +1,226 @@
+section.post-content .flex-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 5;
+
+  .post-content__index-title {
+    margin: 0 0 var(--space-sm);
+    color: var(--brand-heading);
+  }
+
+  .post-author-card {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--brand-grey);
+  }
+
+  .post-content__aside--no-index .post-author-card {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .post-content__aside--no-index .meta {
+    margin-top: var(--space-md);
+  }
+
+  .post-author-card__avatar {
+    margin-bottom: var(--space-sm);
+
+    img {
+      display: block;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .post-author-card__label {
+    margin: 0 0 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--brand-orange);
+  }
+
+  .post-author-card__name {
+    margin: 0 0 12px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--brand-heading);
+  }
+
+  .post-author-card__bio {
+    margin: 0 0 var(--space-sm);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--brand-text-muted);
+  }
+
+  aside {
+    width: 400px;
+    max-width: 400px;
+    flex-basis: 400px;
+    background: var(--brand-white);
+    border: 1px solid var(--brand-grey);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
+    position: sticky;
+    top: 10vh;
+
+    .meta {
+      font-weight: 400;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--brand-text-muted);
+      margin-top: var(--space-lg);
+
+      .date {
+        margin-right: 8px;
+        padding-right: 12px;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translate(50%, -50%);
+          width: 3px;
+          height: 3px;
+          background: var(--brand-text-muted);
+          border-radius: 100%;
+        }
+      }
+
+      .reading-time {
+        color: inherit;
+      }
+    }
+
+    .index a {
+      display: block;
+      font-weight: 400;
+      padding-left: 22px;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 12px;
+      color: var(--brand-text-muted);
+      text-decoration: none;
+      line-height: 1.45;
+      transition: color 0.2s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover,
+      &:focus {
+        color: var(--brand-text);
+      }
+
+      &.is-active {
+        color: var(--brand-orange);
+        font-weight: 600;
+      }
+
+      &.is-active::before,
+      &:hover::before {
+        background: var(--brand-orange);
+        border-color: var(--brand-orange);
+      }
+
+      &::before {
+        content: '';
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        left: 0;
+        top: 0.35em;
+        background: var(--brand-grey);
+        border-radius: 100%;
+        border: 1px solid var(--brand-purple-bright);
+        transition: background 0.2s ease, border-color 0.2s ease;
+      }
+    }
+
+    >*:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .content {
+    width: calc(100% - 400px);
+    max-width: calc(100% - 400px);
+    flex-basis: calc(100% - 400px);
+    padding-left: 60px;
+
+    img {
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-card);
+    }
+
+    h2,
+    .h2 {
+      font-size: 36px;
+    }
+
+    h3,
+    .h3 {
+      font-size: 28px;
+    }
+
+    h2,
+    .h2,
+    h3,
+    .h3 {
+      margin-top: 40px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h3,
+    .h3 {
+      font-size: 28px;
+    }
+
+    >*:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  section.post-content .flex-wrapper {
+    display: block;
+    margin: 0;
+
+    aside {
+      width: 100%;
+      max-width: 100%;
+      flex-basis: 100%;
+      position: static;
+      padding: var(--space-sm);
+      margin-bottom: var(--space-md);
+
+      .meta {
+        margin-top: var(--space-md);
+      }
+    }
+
+    .content {
+      width: 100%;
+      max-width: 100%;
+      flex-basis: 100%;
+      padding-left: 0;
+    }
+  }
+}

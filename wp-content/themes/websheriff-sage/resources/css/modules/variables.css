@@ -1,0 +1,53 @@
+/* Design tokens – CSS custom properties (site-wide dark theme) */
+
+:root {
+  /* --- Dark surfaces (purple family) --- */
+  --brand-page: #1a1720;
+  --brand-surface: #23202a;
+  --brand-surface-raised: #2c2834;
+  --brand-surface-softer: #383445;
+
+  /* --- Text on dark --- */
+  --brand-text: #ece9f2;
+  --brand-text-muted: rgba(236, 233, 242, 0.68);
+  --brand-heading: #ffffff;
+  /* High-contrast text on purple / orange / footer */
+  --brand-on-inverse: #ffffff;
+
+  /* --- Brand accents (buttons, links, highlights) --- */
+  --brand-purple: #4b465d;
+  --brand-purple-bright: #6d6680;
+  --brand-dark-purple: #ece9f2;
+  --brand-orange: #f39200;
+  --brand-purple-soft: rgba(236, 233, 242, 0.62);
+  --brand-black: #0c0a10;
+
+  /*
+   * Legacy “white/grey” names = layered surfaces on dark (cards, stripes, inputs).
+   * Do not use for text on colored buttons — use --brand-on-inverse there.
+   */
+  --brand-white: #2c2834;
+  --brand-light-grey: #34303c;
+  --brand-grey: #3a3545;
+
+  /* Success / included states */
+  --brand-success: #22c55e;
+  --brand-success-soft: color-mix(in srgb, var(--brand-success) 22%, var(--brand-surface-raised));
+
+  /* --- Spacing --- */
+  --space-sm: 20px;
+  --space-md: 40px;
+  --space-lg: 80px;
+
+  /* --- Typography --- */
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Poppins", sans-serif;
+
+  /* --- Radius --- */
+  --radius-sm: 8px;
+  --radius-md: 18px;
+  --radius-lg: 40px;
+
+  /* --- Shadows --- */
+  --shadow-card: 0 6px 22px rgba(0, 0, 0, 0.18);
+}

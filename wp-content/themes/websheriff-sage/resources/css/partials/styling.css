@@ -1,0 +1,126 @@
+[data-aos^=fade][data-aos^=fade] {
+  opacity: 0 !important;
+
+  &.aos-animate {
+    opacity: 1 !important;
+  }
+}
+
+.swiper-scrollbar-drag {
+  background: var(--brand-orange) !important;
+}
+
+.swiper-scrollbar {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+ }
+
+.swiper-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+
+  &.swiper-pagination-bullet-active {
+    background: var(--brand-orange);
+    border-color: var(--brand-orange);
+    width: 60px;
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 40px !important;
+  height: 40px !important;
+  background: var(--brand-surface-softer);
+  border-radius: 100%;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  color: var(--brand-text);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background: var(--brand-orange);
+
+    &:before {
+      color: var(--brand-on-inverse);
+    }
+  }
+
+  &:before {
+    font-family: 'Font Awesome 6 Free', sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    content: '\f054';
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+    color: var(--brand-orange);
+  }
+
+  &.swiper-button-prev {
+    &:before {
+      content: '\f053';
+    }
+  }
+
+  &:after {
+    content: none !important;
+  }
+}
+
+section:not(.hero) {
+  +section:not(.contact) .container {
+    padding-top: 0 !important;
+  }
+}
+
+/* Gutenberg wraps ACF blocks; default overflow can clip section.has-waves ::before (drawn below the section). */
+.wp-block-acf-hero {
+  overflow: visible;
+}
+
+/* Wave mask URLs: use ../../images/… from this file so Vite resolves to hashed assets in production. */
+section {
+  background: var(--brand-surface);
+  position: relative;
+  overflow: hidden;
+
+  ul {
+    margin: 0 0 20px 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      padding-left: 25px;
+      margin: 0 0 5px 0;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &::before {
+        font-family: 'Font Awesome 6 Free', sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        content: '\f00c';
+        position: absolute;
+        left: 0;
+        top: 7px;
+        color: var(--brand-orange);
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+}

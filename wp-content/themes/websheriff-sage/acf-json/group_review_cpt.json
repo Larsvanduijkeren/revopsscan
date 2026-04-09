@@ -1,0 +1,83 @@
+{
+    "key": "group_review_cpt",
+    "title": "Review details",
+    "fields": [
+        {
+            "key": "field_review_rating",
+            "label": "Star rating",
+            "name": "review_rating",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {"width": "33", "class": "", "id": ""},
+            "choices": {
+                "5": "5 stars",
+                "4": "4 stars",
+                "3": "3 stars",
+                "2": "2 stars",
+                "1": "1 star"
+            },
+            "default_value": "5",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_review_initials",
+            "label": "Initials (avatar)",
+            "name": "review_initials",
+            "type": "text",
+            "instructions": "Optional. Shown in the circular avatar. If empty, initials are taken from the review title.",
+            "required": 0,
+            "wrapper": {"width": "33", "class": "", "id": ""},
+            "default_value": "",
+            "maxlength": 4,
+            "placeholder": "e.g. JV"
+        },
+        {
+            "key": "field_review_role",
+            "label": "Role / company",
+            "name": "review_role",
+            "type": "text",
+            "instructions": "e.g. Head of RevOps · ScaleUp BV",
+            "required": 0,
+            "wrapper": {"width": "34", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_review_quote",
+            "label": "Quote",
+            "name": "review_quote",
+            "type": "textarea",
+            "instructions": "The review text shown on the card.",
+            "required": 1,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "rows": 5,
+            "new_lines": "br",
+            "maxlength": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "review"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1773000100
+}

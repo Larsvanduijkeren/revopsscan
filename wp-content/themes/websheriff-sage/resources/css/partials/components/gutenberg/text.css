@@ -1,0 +1,27 @@
+section.text {
+    &.center .content {
+        text-align: center;
+    }
+
+    .content {
+        max-width: 800px;
+        margin: 0 auto;
+
+        >*:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    @media only screen and (max-width: 991px) {
+        .content {
+            max-width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 575px) {
+        .content {
+            font-size: 16px;
+            line-height: 1.65;
+        }
+    }
+}

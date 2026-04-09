@@ -1,0 +1,108 @@
+section.partners .intro {
+  margin-bottom: var(--space-md);
+}
+
+section.partners .slider {
+  padding-bottom: 40px;
+}
+
+section.partners .swiper {
+  overflow: visible;
+}
+
+section.partners .swiper-wrapper {
+  display: flex;
+  align-items: center;
+  padding-bottom: 40px;
+  overflow: visible;
+}
+
+section.partners .swiper-scrollbar {
+  margin-top: 12px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+section.partners .partner-logo {
+  width: auto;
+  flex-shrink: 0;
+  padding: 0 10px;
+  margin: 0 !important;
+}
+
+section.partners .partner-logo__link,
+section.partners .partner-logo__wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  transition: opacity 0.2s ease;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  background: var(--brand-white);
+}
+
+section.partners .partner-logo__link:hover {
+  opacity: 0.8;
+}
+
+section.partners .partner-logo__img {
+  width: auto;
+  object-fit: contain;
+  object-position: center;
+  /* Dark assets on dark cards: flatten to white for contrast */
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.88;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  width: 80%;
+  height: 80%;
+  max-height: 35px;
+}
+
+section.partners .partner-logo__link:hover .partner-logo__img {
+  filter: grayscale(1) brightness(0) invert(1) brightness(1.12);
+  opacity: 1;
+}
+
+@media only screen and (max-width: 991px) {
+  section.partners .intro {
+    margin-bottom: var(--space-sm);
+  }
+
+  section.partners .slider {
+    padding-bottom: 28px;
+  }
+
+  section.partners .swiper-wrapper {
+    padding-bottom: 28px;
+  }
+
+  section.partners .partner-logo {
+    padding: 0 6px;
+  }
+
+  section.partners .partner-logo__link,
+  section.partners .partner-logo__wrap {
+    height: 76px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  section.partners .partner-logo__link,
+  section.partners .partner-logo__wrap {
+    height: 64px;
+  }
+
+  section.partners .partner-logo__img {
+    max-height: 28px;
+  }
+}

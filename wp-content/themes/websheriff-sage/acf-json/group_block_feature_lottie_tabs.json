@@ -1,0 +1,196 @@
+{
+    "key": "group_block_feature_lottie_tabs",
+    "title": "Block: Feature Lottie tabs",
+    "fields": [
+        {
+            "key": "field_flt_section_title",
+            "label": "Section title",
+            "name": "section_title",
+            "type": "text",
+            "instructions": "Large headline above the panel (e.g. Keep work moving 24/7).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_flt_label",
+            "label": "Panel label",
+            "name": "panel_label",
+            "type": "text",
+            "instructions": "Small label above the left column headline.",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "Custom Agents"
+        },
+        {
+            "key": "field_flt_badge",
+            "label": "Badge",
+            "name": "panel_badge",
+            "type": "text",
+            "instructions": "Optional pill next to the label (e.g. New).",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "New"
+        },
+        {
+            "key": "field_flt_panel_title",
+            "label": "Panel headline",
+            "name": "panel_title",
+            "type": "text",
+            "instructions": "Bold line in the left column header.",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_flt_show_arrow",
+            "label": "Show decorative arrow",
+            "name": "show_panel_arrow",
+            "type": "true_false",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": 1,
+            "ui": 1
+        },
+        {
+            "key": "field_flt_tabs",
+            "label": "Tabs",
+            "name": "tabs",
+            "type": "repeater",
+            "instructions": "Each row: icon, title, optional description, optional Lottie JSON and/or stage image (image is used when no Lottie), and right-panel tint.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 1,
+            "max": 0,
+            "collapsed": "field_flt_tab_title",
+            "button_label": "Add tab",
+            "sub_fields": [
+                {
+                    "key": "field_flt_tab_icon",
+                    "label": "Font Awesome classes",
+                    "name": "icon_class",
+                    "type": "text",
+                    "instructions": "e.g. fa-solid fa-comments",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_icon_tone",
+                    "label": "Icon circle colour",
+                    "name": "icon_tone",
+                    "type": "select",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "choices": {
+                        "orange": "Orange",
+                        "purple": "Purple",
+                        "teal": "Teal",
+                        "pink": "Pink"
+                    },
+                    "default_value": "orange",
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_title",
+                    "label": "Title",
+                    "name": "item_title",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_desc",
+                    "label": "Description",
+                    "name": "item_description",
+                    "type": "textarea",
+                    "instructions": "Shown when this tab is active (optional).",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "rows": 3,
+                    "new_lines": "br",
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_image",
+                    "label": "Stage image",
+                    "name": "tab_image",
+                    "type": "image",
+                    "instructions": "Optional static image for the right panel. Used when this tab has no Lottie file (Lottie takes priority if both are set).",
+                    "required": 0,
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_lottie",
+                    "label": "Lottie animation (JSON)",
+                    "name": "lottie_file",
+                    "type": "file",
+                    "instructions": "Upload a .json file exported from Lottie / After Effects. Leave empty to use the stage image only.",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "return_format": "url",
+                    "library": "all",
+                    "mime_types": "json",
+                    "parent_repeater": "field_flt_tabs"
+                },
+                {
+                    "key": "field_flt_tab_stage",
+                    "label": "Right panel tint",
+                    "name": "stage_tint",
+                    "type": "select",
+                    "instructions": "Background colour behind the animation when this tab is active.",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "choices": {
+                        "peach": "Peach",
+                        "lavender": "Lavender",
+                        "mint": "Mint",
+                        "rose": "Rose",
+                        "sand": "Sand"
+                    },
+                    "default_value": "peach",
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "parent_repeater": "field_flt_tabs"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/feature-lottie-tabs"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775843200
+}
