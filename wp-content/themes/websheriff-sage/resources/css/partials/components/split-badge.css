@@ -1,0 +1,25 @@
+.split-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 20px;
+    padding: 8px 14px;
+    background: color-mix(in srgb, var(--brand-orange) 12%, var(--brand-surface-raised));
+    border: 1px solid color-mix(in srgb, var(--brand-orange) 35%, var(--brand-grey));
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+.split-badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    flex-shrink: 0;
+}
+
+.split-badge__text {
+    line-height: 1.2;
+}

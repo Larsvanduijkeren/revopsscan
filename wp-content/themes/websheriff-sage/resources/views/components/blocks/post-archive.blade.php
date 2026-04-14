@@ -17,9 +17,7 @@ $show_category_filter = ! empty($show_category_filter);
     class="post-archive has-waves">
     <div class="container">
         <div class="intro center" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ esc_html($label) }}</span>
-            @endif
+            <x-split-badge :text="$label" />
 
             @if($title)
             <h1>{{ esc_html($title) }}</h1>
@@ -61,7 +59,10 @@ $show_category_filter = ! empty($show_category_filter);
                 <li class="post-archive__filter-item">
                     <a
                         href="{{ esc_url($all_url) }}"
-                        class="post-archive__filter-link {{ $current_archive_cat === '' ? 'is-active' : '' }}">
+                        @class([
+                            'btn small' => $current_archive_cat === '',
+                            'btn-ghost small' => $current_archive_cat !== '',
+                        ])>
                         {{ esc_html(__('Alles', 'sage')) }}
                     </a>
                 </li>
@@ -77,7 +78,10 @@ $show_category_filter = ! empty($show_category_filter);
                 <li class="post-archive__filter-item">
                     <a
                         href="{{ esc_url($filter_url) }}"
-                        class="post-archive__filter-link {{ $current_archive_cat === $term->slug ? 'is-active' : '' }}">
+                        @class([
+                            'btn small' => $current_archive_cat === $term->slug,
+                            'btn-ghost small' => $current_archive_cat !== $term->slug,
+                        ])>
                         {{ esc_html($term->name) }}
                     </a>
                 </li>

@@ -19,9 +19,7 @@ $id = $block['anchor'] ?? null;
         <div class="card">
             <div class="contact-grid" data-aos="fade-up">
                 <div class="contact-content">
-                    @if($label)
-                    <span class="label">{{ $label }}</span>
-                    @endif
+                    <x-split-badge :text="$label" />
 
                     @if($title)
                     <h2>{{ $title }}</h2>

@@ -14,9 +14,7 @@ $is_preview = $is_preview ?? false;
     <div class="container">
         @if($label || $title || $intro)
         <div class="intro" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ esc_html($label) }}</span>
-            @endif
+            <x-split-badge :text="$label" />
             @if($title)
             <h2 class="post-selection__title h2">{{ esc_html($title) }}</h2>
             @endif

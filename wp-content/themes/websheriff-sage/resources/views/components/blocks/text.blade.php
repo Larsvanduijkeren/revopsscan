@@ -13,9 +13,7 @@ $id = $block['anchor'] ?? null;
     class="text {{ $alignment ?? 'normal' }} has-waves">
     <div class="container">
         <div class="content" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ $label }}</span>
-            @endif
+            <x-split-badge :text="$label" />
 
             @if($title)
             <h2>{{ $title }}</h2>

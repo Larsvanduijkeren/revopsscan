@@ -179,21 +179,6 @@ section.hero.hero--layout-split {
     font-size: 1rem;
     line-height: 1.55;
 
-    .hero__split-container {
-        padding-top: 60px;
-        padding-bottom: 60px;
-
-        @media screen and (min-width: 992px) {
-            padding-top: 80px;
-            padding-bottom: 80px;
-        }
-
-        @media screen and (max-width: 991px) {
-            padding-top: 40px;
-            padding-bottom: 40px;
-        }
-    }
-
     .hero__split-grid {
         display: grid;
         gap: 40px;
@@ -232,28 +217,6 @@ section.hero.hero--layout-split {
         .separator {
             color: var(--brand-purple-soft);
         }
-    }
-
-    .hero__split-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin: 0 0 20px;
-        padding: 8px 14px;
-        background: color-mix(in srgb, var(--brand-orange) 12%, var(--brand-surface-raised));
-        border: 1px solid color-mix(in srgb, var(--brand-orange) 35%, var(--brand-grey));
-        border-radius: 999px;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        color: var(--brand-text);
-    }
-
-    .hero__split-badge-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--brand-orange);
-        flex-shrink: 0;
     }
 
     .hero__split-title {

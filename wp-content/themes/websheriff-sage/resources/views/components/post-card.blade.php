@@ -47,7 +47,7 @@ $category_url = $primary_cat ? add_query_arg('archive_cat', $primary_cat->slug, 
 
     <a href="{{ esc_url($permalink) }}">
         <span class="content">
-            <span class="label">{{ esc_html(__('Nieuws', 'sage')) }}</span>
+            <x-split-badge :text="__('Nieuws', 'sage')" />
             <h3>
                 {{ esc_html($title) }}
             </h3>

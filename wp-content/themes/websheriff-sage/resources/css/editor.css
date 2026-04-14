@@ -61,6 +61,7 @@
   @nested-import "./partials/components/mobile-nav.css";
   @nested-import "./partials/components/post-card.css";
   @nested-import "./partials/components/breadcrumbs.css";
+  @nested-import "./partials/components/split-badge.css";
   @nested-import "./partials/components/single-hero.css";
   @nested-import "./partials/components/single-post.css";
   /* Gutenberg blocks */

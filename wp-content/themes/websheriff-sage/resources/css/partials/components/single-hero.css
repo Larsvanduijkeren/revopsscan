@@ -32,14 +32,8 @@ section.single-hero .single-hero__grid:not(.single-hero__grid--has-image) .singl
   max-width: 720px;
 }
 
-section.single-hero .single-hero__label {
-  display: block;
-  margin: 0 0 10px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--brand-orange);
+section.single-hero .split-badge {
+  margin-bottom: 10px;
 }
 
 section.single-hero .single-hero__title {

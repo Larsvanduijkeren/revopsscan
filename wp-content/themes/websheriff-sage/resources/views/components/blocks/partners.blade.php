@@ -11,9 +11,7 @@ $id = $block['anchor'] ?? null;
     class="partners has-waves">
     <div class="container">
         <div class="intro" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ $label }}</span>
-            @endif
+            <x-split-badge :text="$label" />
 
             @if($title)
             <h2>{{ $title }}</h2>

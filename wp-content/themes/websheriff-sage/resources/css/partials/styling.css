@@ -78,7 +78,7 @@
   }
 }
 
-section:not(.hero) {
+section {
   +section .container {
     padding-top: 0 !important;
   }

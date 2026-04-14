@@ -6,7 +6,7 @@ $items = is_array($items_raw) ? array_values(array_filter($items_raw, static fun
     return is_array($row) && trim((string) ($row['usp_title'] ?? '')) !== '';
 })) : [];
 $id = $block['anchor'] ?? null;
-$col_count = min(5, max(1, count($items)));
+$col_count = min(4, max(1, count($items)));
 @endphp
 @if(!empty($items))
 <section
@@ -15,9 +15,7 @@ $col_count = min(5, max(1, count($items)));
     <div class="container">
         @if($label || $title)
         <div class="intro" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ esc_html($label) }}</span>
-            @endif
+            <x-split-badge :text="$label" />
             @if($title)
             <h2 class="usps__headline h2">{{ esc_html($title) }}</h2>
             @endif
@@ -48,7 +46,7 @@ $col_count = min(5, max(1, count($items)));
 @elseif(!empty($is_preview))
 <section class="usps usps--empty has-waves" aria-label="{{ esc_attr(__('USPs', 'sage')) }}">
     <div class="container">
-        <p class="usps__empty-msg">{{ esc_html(__('Add up to five USPs in the sidebar.', 'sage')) }}</p>
+        <p class="usps__empty-msg">{{ esc_html(__('Add USPs in the sidebar.', 'sage')) }}</p>
     </div>
 </section>
 @endif

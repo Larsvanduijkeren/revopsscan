@@ -16,9 +16,7 @@ $has_image = $image && has_post_thumbnail($image);
             <div class="single-hero__content" data-aos="fade-up">
                 @include('partials.rank-math-breadcrumb', ['wrapper_class' => 'single-hero__breadcrumb'])
 
-                @if($label)
-                <span class="single-hero__label">{{ $label }}</span>
-                @endif
+                <x-split-badge :text="$label" />
 
                 @if($title)
                 <h1 class="single-hero__title">{{ $title }}</h1>

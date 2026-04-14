@@ -88,7 +88,7 @@ section.comparison-table {
     }
 
     .comparison-table__dot--yes {
-        color: var(--brand-success);
+        color: var(--brand-orange);
     }
 
     .comparison-table__dot--no {

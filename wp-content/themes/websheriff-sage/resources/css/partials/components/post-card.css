@@ -79,11 +79,9 @@
       height: 100%;
       border-radius: var(--radius-sm);
 
-      .label {
-        display: block;
+      .split-badge {
         margin-bottom: 8px;
-        font-size: 0.85rem;
-        opacity: 0.7;
+        align-self: flex-start;
       }
 
 

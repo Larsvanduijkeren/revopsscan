@@ -115,12 +115,7 @@ $is_preview = $is_preview ?? false;
                     @include('partials.rank-math-breadcrumb', ['wrapper_class' => 'hero__breadcrumb hero__breadcrumb--split'])
                 @endif
 
-                @if($split_badge)
-                <p class="hero__split-badge">
-                    <span class="hero__split-badge-dot" aria-hidden="true"></span>
-                    <span class="hero__split-badge-text">{{ esc_html($split_badge) }}</span>
-                </p>
-                @endif
+                <x-split-badge :text="$split_badge" />
 
                 @if($title || $title_highlight)
                 <h1 class="hero__split-title">

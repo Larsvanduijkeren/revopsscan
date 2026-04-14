@@ -23,9 +23,7 @@ $id = $block['anchor'] ?? null;
     class="pricing-plans has-waves">
     <div class="container">
         <div class="intro center" data-aos="fade-up">
-            @if($label)
-            <span class="label">{{ esc_html($label) }}</span>
-            @endif
+            <x-split-badge :text="$label" />
             @if($title)
             <h2>{{ esc_html($title) }}</h2>
             @endif

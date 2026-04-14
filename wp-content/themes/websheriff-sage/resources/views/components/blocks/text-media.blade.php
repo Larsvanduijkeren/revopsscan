@@ -25,9 +25,7 @@ $play_label = $title
     <div class="container">
         <div class="flex-wrapper">
             <div class="content" data-aos="fade-up">
-                @if($label)
-                <span class="label">{{ esc_html($label) }}</span>
-                @endif
+                <x-split-badge :text="$label" />
                 @if($title)
                 <h2>{{ esc_html($title) }}</h2>
                 @endif
