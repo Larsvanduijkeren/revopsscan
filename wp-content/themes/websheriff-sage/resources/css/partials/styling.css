@@ -79,7 +79,7 @@
 }
 
 section:not(.hero) {
-  +section:not(.contact) .container {
+  +section .container {
     padding-top: 0 !important;
   }
 }

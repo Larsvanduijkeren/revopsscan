@@ -2,9 +2,6 @@ section.review-selection .intro {
   margin-bottom: var(--space-md);
 }
 
-section.review-selection .slider {
-  padding-bottom: 40px;
-}
 
 section.review-selection .review-selection-swiper {
   overflow: visible;
