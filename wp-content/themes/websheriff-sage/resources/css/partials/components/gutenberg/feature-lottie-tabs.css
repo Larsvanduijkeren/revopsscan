@@ -153,41 +153,40 @@ section.feature-lottie-tabs {
 
   .feature-lottie-tabs__tab-main {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
   }
 
+  /* Match contact block feature rows: icon only, no rounded badge */
   .feature-lottie-tabs__icon {
     flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.125rem;
-    line-height: 1;
-    color: var(--brand-on-inverse);
+    width: 2.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-top: 2px;
+    display: block;
 
     i {
       line-height: 1;
+      font-style: normal;
     }
   }
 
   .feature-lottie-tabs__icon--orange {
-    background: var(--brand-orange);
+    color: var(--brand-orange);
   }
 
   .feature-lottie-tabs__icon--purple {
-    background: #7c6bb5;
+    color: var(--brand-purple-bright);
   }
 
   .feature-lottie-tabs__icon--teal {
-    background: #2a9d8f;
+    color: #2a9d8f;
   }
 
   .feature-lottie-tabs__icon--pink {
-    background: #e879a8;
+    color: #e879a8;
   }
 
   .feature-lottie-tabs__tab-text {
@@ -328,9 +327,9 @@ section.feature-lottie-tabs {
     }
 
     .feature-lottie-tabs__icon {
-      width: 40px;
-      height: 40px;
-      font-size: 1rem;
+      width: 2.25rem;
+      font-size: 1.25rem;
+      margin-top: 3px;
     }
 
     .feature-lottie-tabs__stage {

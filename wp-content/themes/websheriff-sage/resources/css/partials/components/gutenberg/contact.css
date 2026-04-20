@@ -28,32 +28,6 @@ section.contact {
       flex-wrap: wrap;
       gap: 0.75rem;
     }
-
-    .buttons>.btn:not(.btn-ghost) {
-      background-color: var(--brand-orange) !important;
-      color: var(--brand-on-inverse) !important;
-      border-color: var(--brand-orange) !important;
-    }
-
-    .buttons>.btn:not(.btn-ghost):hover,
-    .buttons>.btn:not(.btn-ghost):focus {
-      background-color: var(--brand-surface-raised) !important;
-      border-color: var(--brand-surface-raised) !important;
-      color: var(--brand-text) !important;
-    }
-
-    .buttons>.btn-ghost {
-      background-color: transparent !important;
-      color: var(--brand-text) !important;
-      border-color: var(--brand-purple-bright) !important;
-    }
-
-    .buttons>.btn-ghost:hover,
-    .buttons>.btn-ghost:focus {
-      background-color: var(--brand-orange) !important;
-      color: var(--brand-on-inverse) !important;
-      border-color: var(--brand-orange) !important;
-    }
   }
 
   .contact-text {

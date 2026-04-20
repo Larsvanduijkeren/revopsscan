@@ -39,11 +39,6 @@ $panel_dom_id = 'flt-panel-' . preg_replace('/[^a-zA-Z0-9_-]/', '', (string) ($b
                         @if($panel_title)
                         <h3 class="feature-lottie-tabs__nav-title">{{ esc_html($panel_title) }}</h3>
                         @endif
-                        @if($show_panel_arrow)
-                        <span class="feature-lottie-tabs__nav-arrow" aria-hidden="true">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </span>
-                        @endif
                     </div>
                 </header>
 
