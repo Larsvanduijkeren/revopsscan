@@ -46,17 +46,9 @@ section.pricing-plans .pricing-card.is-featured {
   border-color: var(--brand-purple);
 }
 
-section.pricing-plans .pricing-card__badge {
-  display: table;
-  margin: 0 auto var(--space-sm);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: var(--brand-orange);
-  color: var(--brand-on-inverse);
-  font-size: 0.9rem;
-  font-weight: 500;
-  font-family: var(--font-body);
-  line-height: 1.4;
+section.pricing-plans .pricing-card .split-badge.pricing-card__badge {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 section.pricing-plans .pricing-card__body {
@@ -174,9 +166,11 @@ section.pricing-plans .pricing-card__actions .btn-ghost {
 section.pricing-plans .pricing-plans__banner {
   margin-top: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  background: var(--brand-light-grey);
+  background: var(--brand-white);
   border-radius: var(--radius-md);
-  border: 1px solid var(--brand-grey);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
 }
 
 section.pricing-plans .pricing-plans__banner-inner {

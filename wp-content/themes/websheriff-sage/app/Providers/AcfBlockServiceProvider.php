@@ -13,7 +13,9 @@ class AcfBlockServiceProvider extends SageServiceProvider
         'hero'          => 'Hero',
         'text'          => 'Text',
         'text-media'    => 'Text media',
+        'full-width-video' => 'Full width video',
         'content-cards' => 'Content Cards',
+        'case-study'    => 'Case study',
         'pricing-plans' => 'Pricing plans',
         'post-archive'      => 'Post archive',
         'post-selection'    => 'Post selection',
@@ -24,6 +26,7 @@ class AcfBlockServiceProvider extends SageServiceProvider
         'comparison-table' => 'Comparison table',
         'feature-lottie-tabs' => 'Feature Lottie tabs',
         'contact'       => 'Contact',
+        'gallery'       => 'Gallery',
     ];
 
     public function boot(): void

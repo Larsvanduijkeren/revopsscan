@@ -1,0 +1,124 @@
+/* Intro uses .content + .buttons from global partials (same pattern as text-media). */
+section.full-width-video .full-width-video__intro.content {
+  max-width: 800px;
+  margin-bottom: var(--space-md);
+}
+
+section.full-width-video .full-width-video__intro > *:last-child {
+  margin-bottom: 0;
+}
+
+/* 16:9 stage inside .container (same width as other blocks; poster uses 56.25% padding like text-media). */
+section.full-width-video .full-width-video__stage {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* --- Video trigger / poster / play: mirrors text-media (shared class names, lity on anchor). --- */
+section.full-width-video .text-media__video-trigger {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+section.full-width-video .text-media__video-trigger:focus-visible .text-media__video-poster-wrap {
+  outline: 2px solid var(--brand-purple);
+  outline-offset: 4px;
+}
+
+section.full-width-video .text-media__video-trigger--preview {
+  cursor: default;
+}
+
+section.full-width-video .text-media__video-poster-wrap {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+section.full-width-video .text-media__video-poster-wrap::before {
+  content: '';
+  display: block;
+  padding-top: 56.25%;
+}
+
+section.full-width-video .text-media__video-poster-wrap img,
+section.full-width-video .text-media__video-placeholder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+section.full-width-video .text-media__video-placeholder {
+  background: var(--brand-light-grey);
+}
+
+section.full-width-video .text-media__video-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--brand-orange);
+  box-shadow: var(--shadow-card);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+section.full-width-video .text-media__video-play::before {
+  content: '';
+  position: absolute;
+  left: 54%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent var(--brand-on-inverse);
+}
+
+section.full-width-video .text-media__video-trigger:hover .text-media__video-play,
+section.full-width-video .text-media__video-trigger:focus-visible .text-media__video-play {
+  background: var(--brand-purple);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+section.full-width-video .text-media__video-caption {
+  margin: 10px 0 0;
+  padding: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 200;
+  line-height: 1.5;
+  color: var(--brand-purple-soft);
+}
+
+@media only screen and (max-width: 991px) {
+  section.full-width-video .full-width-video__intro {
+    margin-bottom: var(--space-sm);
+  }
+
+  section.full-width-video .text-media__video-caption {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  section.full-width-video .text-media__video-play {
+    width: 56px;
+    height: 56px;
+  }
+
+  section.full-width-video .text-media__video-play::before {
+    border-width: 8px 0 8px 13px;
+  }
+}

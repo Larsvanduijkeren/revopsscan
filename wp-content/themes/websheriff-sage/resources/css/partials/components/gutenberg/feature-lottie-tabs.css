@@ -23,7 +23,7 @@ section.feature-lottie-tabs {
     display: grid;
     gap: 0;
     background: var(--brand-white);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
     overflow: hidden;
     border: 1px solid var(--brand-grey);

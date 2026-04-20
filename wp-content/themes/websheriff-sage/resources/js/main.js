@@ -12,12 +12,13 @@ export default function initTheme({$, AOS, Lenis, Swiper, Navigation, Pagination
         postIndex($);
 
         postSlider(Swiper, Scrollbar);
+        gallerySlider(Swiper, Scrollbar);
         singleGallerySlider(Swiper, Thumbs);
         textMediaSlider(Swiper, Scrollbar, EffectFade);
         heroGallerySlider($, Swiper, EffectFade, Autoplay);
         heroSplitVisualSlider(Swiper, Scrollbar, EffectFade);
         partnersSlider(Swiper, Scrollbar, Autoplay);
-        reviewSelectionSlider(Swiper, Scrollbar);
+        reviewSelectionSlider(Swiper, Navigation, Pagination);
         postSelectionSlider(Swiper, Scrollbar);
         contentCardsSlider(Swiper, Scrollbar);
         featureLottieTabs($, lottie);
@@ -175,6 +176,15 @@ function postSlider(Swiper, Scrollbar) {
     });
 }
 
+function gallerySlider(Swiper, Scrollbar) {
+    initSwiperSliders({
+        Swiper,
+        selector: '.gallery .swiper',
+        modules: [Scrollbar],
+        defaults: slickLikeDefaults,
+    });
+}
+
 function singleGallerySlider(Swiper, Thumbs) {
     const $galleries = $('.single-gallery');
     if (!$galleries.length || !Swiper || !Thumbs) return;
@@ -236,20 +246,50 @@ function partnersSlider(Swiper, Scrollbar, Autoplay) {
     });
 }
 
-function reviewSelectionSlider(Swiper, Scrollbar) {
-    initSwiperSliders({
-        Swiper,
-        selector: '.review-selection .review-selection-swiper',
-        modules: [Scrollbar],
-        defaults: {
-            ...slickLikeDefaults,
+function reviewSelectionSlider(Swiper, Navigation, Pagination) {
+    const selector = '.review-selection .review-selection-swiper';
+    const $els = $(selector);
+    if (!$els.length || !Swiper || !Navigation || !Pagination) {
+        return;
+    }
+
+    $els.each(function () {
+        const el = this;
+        if (el.swiper) {
+            return;
+        }
+
+        const $el = $(el);
+        const paginationEl = $el.find('.swiper-pagination')[0];
+        const prevEl = $el.find('.swiper-button-prev')[0];
+        const nextEl = $el.find('.swiper-button-next')[0];
+        const slideCount = $el.find('.swiper-slide').length;
+        const multi = slideCount > 1;
+
+        new Swiper(el, {
+            modules: [Navigation, Pagination],
             slidesPerView: 1,
-            spaceBetween: 20,
-            breakpoints: {
-                768: { slidesPerView: 2 },
-                992: { slidesPerView: 3 },
-            },
-        },
+            spaceBetween: 0,
+            speed: 450,
+            loop: false,
+            rewind: multi,
+            watchOverflow: true,
+            resistanceRatio: 0,
+            allowTouchMove: multi,
+            navigation:
+                prevEl && nextEl
+                    ? {
+                          prevEl,
+                          nextEl,
+                      }
+                    : undefined,
+            pagination: paginationEl
+                ? {
+                      el: paginationEl,
+                      clickable: true,
+                  }
+                : undefined,
+        });
     });
 }
 

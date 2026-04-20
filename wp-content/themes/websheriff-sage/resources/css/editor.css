@@ -68,7 +68,9 @@
   @nested-import "./partials/components/gutenberg/hero.css";
   @nested-import "./partials/components/gutenberg/text.css";
   @nested-import "./partials/components/gutenberg/text-media.css";
+  @nested-import "./partials/components/gutenberg/full-width-video.css";
   @nested-import "./partials/components/gutenberg/content-cards.css";
+  @nested-import "./partials/components/gutenberg/case-study.css";
   @nested-import "./partials/components/gutenberg/pricing-plans.css";
   @nested-import "./partials/components/gutenberg/faq.css";
   @nested-import "./partials/components/gutenberg/post-archive.css";
@@ -79,6 +81,7 @@
   @nested-import "./partials/components/gutenberg/comparison-table.css";
   @nested-import "./partials/components/gutenberg/feature-lottie-tabs.css";
   @nested-import "./partials/components/gutenberg/contact.css";
+  @nested-import "./partials/components/gutenberg/gallery.css";
 
   .card {
     max-width: 100%;
@@ -142,6 +145,10 @@
   display: none;
 }
 
+.block-editor-block-list__block[data-type="acf/case-study"].is-selected {
+  @nested-import "./partials/components/gutenberg/case-study.css";
+}
+
 .block-editor-block-list__block[data-type="acf/pricing-plans"].is-selected {
   @nested-import "./partials/components/gutenberg/pricing-plans.css";
 }
@@ -203,37 +210,36 @@
   display: none;
 }
 
-/* Editor: no Swiper — show review cards in a simple grid */
+/* Editor: no Swiper — promo + stacked testimonial slides */
+.block-editor-block-list__block section.review-selection .review-selection__grid {
+  display: grid !important;
+  gap: var(--space-md);
+}
+
+@media only screen and (min-width: 992px) {
+  .block-editor-block-list__block section.review-selection .review-selection__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+}
+
 .block-editor-block-list__block section.review-selection .review-selection-swiper {
   overflow: visible !important;
 }
 
 .block-editor-block-list__block section.review-selection .review-selection-swiper .swiper-wrapper {
-  display: grid !important;
-  grid-template-columns: 1fr;
-  gap: var(--space-md);
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--space-md) !important;
   transform: none !important;
 }
 
-@media only screen and (min-width: 768px) {
-  .block-editor-block-list__block section.review-selection .review-selection-swiper .swiper-wrapper {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .block-editor-block-list__block section.review-selection .review-selection-swiper .swiper-wrapper {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 .block-editor-block-list__block section.review-selection .review-selection-swiper .swiper-slide {
-  width: auto !important;
+  width: 100% !important;
   margin: 0 !important;
 }
 
-.block-editor-block-list__block section.review-selection .swiper-scrollbar {
-  display: none;
+.block-editor-block-list__block section.review-selection .review-selection__controls {
+  display: none !important;
 }
 
 /* Editor: split hero image slider — stack slides (no Swiper init in preview) */
@@ -255,4 +261,12 @@
 
 .block-editor-block-list__block section.hero.hero--layout-split .hero-split-visual__swiper .swiper-scrollbar {
   display: none;
+}
+
+/* Editor: full-width video stage stays within block canvas */
+.block-editor-block-list__block section.full-width-video .full-width-video__stage {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }

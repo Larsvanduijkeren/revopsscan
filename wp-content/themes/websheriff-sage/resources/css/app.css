@@ -29,7 +29,9 @@
 @import "partials/components/gutenberg/hero.css";
 @import "partials/components/gutenberg/text.css";
 @import "partials/components/gutenberg/text-media.css";
+@import "partials/components/gutenberg/full-width-video.css";
 @import "partials/components/gutenberg/content-cards.css";
+@import "partials/components/gutenberg/case-study.css";
 @import "partials/components/gutenberg/pricing-plans.css";
 @import "partials/components/gutenberg/faq.css";
 @import "partials/components/gutenberg/post-archive.css";
@@ -40,3 +42,4 @@
 @import "partials/components/gutenberg/comparison-table.css";
 @import "partials/components/gutenberg/feature-lottie-tabs.css";
 @import "partials/components/gutenberg/contact.css";
+@import "partials/components/gutenberg/gallery.css";

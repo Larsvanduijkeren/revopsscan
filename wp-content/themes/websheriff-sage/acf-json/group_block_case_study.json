@@ -1,0 +1,155 @@
+{
+    "key": "group_block_case_study",
+    "title": "Block: Case study",
+    "fields": [
+        {
+            "key": "field_cs_image_small",
+            "label": "Top left image",
+            "name": "image_small",
+            "type": "image",
+            "instructions": "Landscape-style image above the lower column.",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_cs_image_tall",
+            "label": "Right column image",
+            "name": "image_tall",
+            "type": "image",
+            "instructions": "Tall image spanning the full block height on large screens.",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_cs_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "instructions": "Optional line above the headline (split badge).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_cs_title",
+            "label": "Headline",
+            "name": "title",
+            "type": "text",
+            "instructions": "Main project or case title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_cs_text",
+            "label": "Overview",
+            "name": "text",
+            "type": "wysiwyg",
+            "instructions": "Problem, approach, or summary copy.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_cs_link",
+            "label": "Link",
+            "name": "link",
+            "type": "link",
+            "instructions": "Optional text link (e.g. full case study).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "return_format": "array"
+        },
+        {
+            "key": "field_cs_features_heading",
+            "label": "Lower section heading",
+            "name": "features_heading",
+            "type": "text",
+            "instructions": "Optional heading above the first column of highlights (e.g. key results).",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_cs_features",
+            "label": "Highlights",
+            "name": "features",
+            "type": "repeater",
+            "instructions": "Up to two items for a two-column row under the overview; optional third/fourth wrap on smaller grids.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 4,
+            "collapsed": "field_cs_feature_title",
+            "button_label": "Add highlight",
+            "sub_fields": [
+                {
+                    "key": "field_cs_feature_icon",
+                    "label": "Font Awesome classes",
+                    "name": "icon_class",
+                    "type": "text",
+                    "instructions": "e.g. fa-solid fa-star",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_cs_feature_title",
+                    "label": "Title",
+                    "name": "feature_title",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_cs_feature_text",
+                    "label": "Text",
+                    "name": "feature_text",
+                    "type": "textarea",
+                    "instructions": "Short supporting line.",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "rows": 3,
+                    "new_lines": "br"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/case-study"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1775400000
+}

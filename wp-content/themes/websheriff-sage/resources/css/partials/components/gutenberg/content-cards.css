@@ -10,9 +10,9 @@ section.content-cards {
   .content-card {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     background: var(--brand-white);
     border-radius: var(--radius-md);
-    overflow: hidden;
     box-shadow: var(--shadow-card);
     border: 1px solid rgba(255, 255, 255, 0.1);
 

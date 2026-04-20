@@ -39,10 +39,11 @@ section.partners .partner-logo__wrap {
   height: 90px;
   transition: opacity 0.2s ease;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-card);
   background: var(--brand-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
 }
 
 section.partners .partner-logo__link:hover {

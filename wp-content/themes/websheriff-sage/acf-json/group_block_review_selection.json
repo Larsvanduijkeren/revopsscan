@@ -25,6 +25,39 @@
             "placeholder": ""
         },
         {
+            "key": "field_rs_reviews_label",
+            "label": "Reviews column label",
+            "name": "reviews_label",
+            "type": "text",
+            "instructions": "Small uppercase line above the testimonial slider. Leave empty for the default English string.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "What our customers say"
+        },
+        {
+            "key": "field_rs_promo_link",
+            "label": "Promo link",
+            "name": "promo_link",
+            "type": "link",
+            "instructions": "Optional “Learn more” link in the left panel.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "return_format": "array"
+        },
+        {
+            "key": "field_rs_promo_image",
+            "label": "Promo image",
+            "name": "promo_image",
+            "type": "image",
+            "instructions": "Optional image along the bottom-right of the left panel.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
             "key": "field_rs_categories",
             "label": "Review categories",
             "name": "category_selection",
@@ -61,5 +94,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1773000200
+    "modified": 1774000400
 }

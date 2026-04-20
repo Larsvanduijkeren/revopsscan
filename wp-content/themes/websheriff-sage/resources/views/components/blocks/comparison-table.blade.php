@@ -29,7 +29,7 @@ $col_count = $has_table ? count($headers) : 0;
                 </thead>
                 <tbody>
                     @foreach($rows as $row)
-                    <tr class="comparison-table__row">
+                    <tr class="comparison-table__row{{ $loop->last ? ' comparison-table__row--pricing' : '' }}">
                         <th scope="row" class="comparison-table__feature">{{ esc_html($row['feature'] ?? '') }}</th>
                         @php
                         $cells = $row['cells'] ?? [];

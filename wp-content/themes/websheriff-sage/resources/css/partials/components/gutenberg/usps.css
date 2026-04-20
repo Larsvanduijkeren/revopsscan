@@ -60,11 +60,6 @@ section.usps {
         height: 100%;
         box-sizing: border-box;
         margin: 0;
-        padding: var(--space-md);
-        background: var(--brand-white);
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-card);
-        border: 1px solid var(--brand-grey);
     }
 
     .usp-card__icon {

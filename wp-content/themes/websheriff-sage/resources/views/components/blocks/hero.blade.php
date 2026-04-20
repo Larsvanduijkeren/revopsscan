@@ -28,6 +28,7 @@ $split_gallery = is_array($split_visual_gallery_raw) ? array_values(array_filter
 
 $id = $block['anchor'] ?? null;
 $is_preview = $is_preview ?? false;
+$overlay_gallery_slider = !empty($gallery) && count($gallery) > 1;
 @endphp
 
 @if($is_overlay)
@@ -91,7 +92,7 @@ $is_preview = $is_preview ?? false;
                         <a
                             href="{{ esc_url($url) }}"
                             target="{{ esc_attr($target) }}"
-                            class="{{ $loop->first ? 'btn' : 'btn-ghost white' }}"
+                            class="{{ $loop->first ? 'btn' : ($overlay_gallery_slider ? 'btn btn-accent' : 'btn-ghost white') }}"
                             rel="{{ $target === '_blank' ? 'noopener noreferrer' : '' }}">
                             {{ esc_html($button_title) }}
                         </a>

@@ -105,9 +105,9 @@ $id = $block['anchor'] ?? null;
                 $card_title = $card['title'] ?? null;
                 $card_text = $card['text'] ?? null;
                 $card_btn = $card['button'] ?? null;
-                $card_url = $card_btn['url'] ?? null;
-                $card_btn_title = $card_btn['title'] ?? null;
-                $card_target = $card_btn['target'] ?? '_self';
+                $card_url = is_array($card_btn) ? ($card_btn['url'] ?? '') : '';
+                $card_btn_title = is_array($card_btn) ? ($card_btn['title'] ?? '') : '';
+                $card_target = is_array($card_btn) ? (string) ($card_btn['target'] ?? '_self') : '_self';
                 @endphp
                 <div class="contact-card" data-aos="fade-up">
                     @if($card_icon)
@@ -122,7 +122,11 @@ $id = $block['anchor'] ?? null;
                     <div class="contact-card-text">{!! nl2br(esc_html($card_text)) !!}</div>
                     @endif
                     @if($card_url && $card_btn_title)
-                    <a href="{{ esc_url($card_url) }}" target="{{ $card_target }}" class="contact-card-button btn btn-ghost">{{ $card_btn_title }}</a>
+                    <a
+                        href="{{ esc_url($card_url) }}"
+                        class="btn"
+                        target="{{ esc_attr($card_target) }}"
+                        @if($card_target === '_blank') rel="noopener noreferrer" @endif>{{ esc_html($card_btn_title) }}</a>
                     @endif
                 </div>
                 @endforeach

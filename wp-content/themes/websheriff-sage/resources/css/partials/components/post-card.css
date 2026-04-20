@@ -1,9 +1,11 @@
 .post-card {
   display: block;
+  background: var(--brand-white);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   height: auto !important;
-  border-radius: var(--radius-sm);
   overflow: hidden;
 
   .image {
@@ -67,7 +69,6 @@
     }
 
     .content {
-      background: var(--brand-white);
       padding: 30px;
       font-weight: 400;
       flex-grow: 1 !important;

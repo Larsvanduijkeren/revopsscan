@@ -51,7 +51,7 @@ $id = $block['anchor'] ?? null;
             @endphp
             <article class="pricing-card {{ $isFeatured ? 'is-featured' : '' }}">
                 @if($isFeatured && $badgeText !== '')
-                <span class="pricing-card__badge">{{ esc_html($badgeText) }}</span>
+                <x-split-badge :text="$badgeText" class="pricing-card__badge" />
                 @endif
                 <div class="pricing-card__body">
                     <h3 class="h4 pricing-card__title">{{ esc_html($planTitle) }}</h3>
