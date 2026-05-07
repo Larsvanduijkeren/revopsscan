@@ -36,7 +36,7 @@ section.partners .partner-logo__wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90px;
+  height: 110px;
   transition: opacity 0.2s ease;
   position: relative;
   background: var(--brand-white);
@@ -104,6 +104,6 @@ section.partners .partner-logo__link:hover .partner-logo__img {
   }
 
   section.partners .partner-logo__img {
-    max-height: 28px;
+    max-height: 34px;
   }
 }

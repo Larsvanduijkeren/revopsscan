@@ -83,7 +83,7 @@ $show_intro = ($label !== null && $label !== '')
             @endif
                 <span class="text-media__video-poster-wrap">
                     @if(!empty($video_poster['url'] ?? null))
-                    <img src="{{ esc_url($video_poster['sizes']['large'] ?? $video_poster['url']) }}" alt="" decoding="async">
+                    <img src="{{ esc_url($video_poster['sizes']['full'] ?? $video_poster['url']) }}" alt="" decoding="async">
                     @else
                     <span class="text-media__video-placeholder" aria-hidden="true"></span>
                     @endif

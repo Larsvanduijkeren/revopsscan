@@ -31,7 +31,7 @@ footer.footer {
       img {
         width: auto;
         max-width: 100%;
-        height: 48px;
+        height: 35px;
         object-fit: contain;
         object-position: left center;
       }

@@ -66,7 +66,7 @@ $play_label = $title
                     <div class="swiper-wrapper">
                         @foreach($display_images as $image)
                         <div class="swiper-slide">
-                            <img src="{{ esc_url($image['sizes']['large'] ?? $image['url'] ?? '') }}" alt="{{ esc_attr($image['alt'] ?? '') }}">
+                            <img src="{{ esc_url($image['sizes']['full'] ?? $image['url'] ?? '') }}" alt="{{ esc_attr($image['alt'] ?? '') }}">
                         </div>
                         @endforeach
                     </div>

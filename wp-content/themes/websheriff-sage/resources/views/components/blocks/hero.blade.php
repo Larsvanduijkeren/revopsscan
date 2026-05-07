@@ -34,7 +34,7 @@ $overlay_gallery_slider = !empty($gallery) && count($gallery) > 1;
 @if($is_overlay)
 <section
     @if($id) id="{{ $id }}" @endif
-    class="hero hero--layout-overlay has-waves">
+    class="hero hero--layout-overlay">
 
     <div class="container">
         <div class="card">

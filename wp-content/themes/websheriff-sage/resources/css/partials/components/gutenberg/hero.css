@@ -11,7 +11,7 @@ section.hero.hero--layout-overlay {
         padding-top: 40px !important;
 
         .card {
-            padding: 80px;
+            padding: 140px 80px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             position: relative;

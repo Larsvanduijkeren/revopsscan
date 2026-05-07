@@ -1,7 +1,17 @@
 @php
 $label = $fields['label'] ?? null;
 $title = $fields['title'] ?? null;
-$logos = $fields['logos'] ?? null;
+$logosRaw = $fields['logos'] ?? null;
+$logos = is_array($logosRaw) ? $logosRaw : [];
+
+// Swiper loop needs slides.length >= slidesPerView + loopedSlides (see partnersSlider breakpoints, max 5 per view).
+if ($logos !== []) {
+    $minSlidesForLoop = 10;
+    $base = $logos;
+    while (count($logos) < $minSlidesForLoop) {
+        $logos = array_merge($logos, $base);
+    }
+}
 
 $id = $block['anchor'] ?? null;
 @endphp
@@ -18,7 +28,7 @@ $id = $block['anchor'] ?? null;
             @endif
         </div>
 
-        @if($logos && count($logos) > 0)
+        @if(count($logos) > 0)
         <div class="slider overflow-wrap" data-aos="fade-up">
             <div class="swiper">
                 <div class="swiper-wrapper">

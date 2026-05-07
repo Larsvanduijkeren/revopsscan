@@ -127,6 +127,7 @@ section.features-slider {
             transform: scale(0.95);
             transform-origin: center;
             opacity: 0.55;
+            width: 100%;
             box-shadow: none;
             transition:
                 transform 0.5s cubic-bezier(0.45, 0.05, 0.2, 1),

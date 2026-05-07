@@ -17,7 +17,7 @@ export default function initTheme({$, AOS, Lenis, Swiper, Navigation, Pagination
         textMediaSlider(Swiper, Scrollbar, EffectFade);
         heroGallerySlider($, Swiper, EffectFade, Autoplay);
         heroSplitVisualSlider(Swiper, Scrollbar, EffectFade);
-        partnersSlider(Swiper, Scrollbar, Autoplay);
+        partnersSlider(Swiper, Scrollbar);
         reviewSelectionSlider(Swiper, Navigation, Pagination);
         postSelectionSlider(Swiper, Scrollbar);
         contentCardsSlider(Swiper, Scrollbar);
@@ -215,7 +215,8 @@ function singleGallerySlider(Swiper, Thumbs) {
     });
 }
 
-function partnersSlider(Swiper, Scrollbar, Autoplay) {
+function partnersSlider(Swiper, Scrollbar) {
+    // Max slidesPerView below is 5; Blade duplicates logo rows until >= 10 so Swiper 11 loop always has enough slides.
     const defaults = {
         ...slickLikeDefaults,
         loop: true,
@@ -231,18 +232,10 @@ function partnersSlider(Swiper, Scrollbar, Autoplay) {
         },
     };
 
-    if (Autoplay) {
-        defaults.autoplay = {
-            delay: 3200,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-        };
-    }
-
     initSwiperSliders({
         Swiper,
         selector: '.partners .swiper',
-        modules: [Scrollbar, Autoplay].filter(Boolean),
+        modules: [Scrollbar].filter(Boolean),
         defaults,
     });
 }

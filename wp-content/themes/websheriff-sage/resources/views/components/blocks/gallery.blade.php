@@ -37,7 +37,7 @@ $slides = $fields['items'] ?? [];
                             allowfullscreen></iframe>
                     @elseif(!empty($item['image']))
                     <div class="image">
-                        <img src="{{ $item['image']['sizes']['large'] ?? $item['image']['url'] }}" alt="{{ $item['image']['alt'] ?? '' }}">
+                        <img src="{{ $item['image']['sizes']['full'] ?? $item['image']['url'] }}" alt="{{ $item['image']['alt'] ?? '' }}">
                     </div>
                     @endif
                 </div>
