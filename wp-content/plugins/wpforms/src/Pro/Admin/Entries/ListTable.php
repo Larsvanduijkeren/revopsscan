@@ -1866,12 +1866,19 @@ class ListTable extends WP_List_Table {
 				<option value="is_not" <?php selected( 'is_not', $cur_comparison ); ?>>
 					<?php esc_html_e( 'is not', 'wpforms' ); ?>
 				</option>
+				<option value="empty" <?php selected( 'empty', $cur_comparison ); ?>>
+					<?php esc_html_e( 'is empty', 'wpforms' ); ?>
+				</option>
+				<option value="not_empty" <?php selected( 'not_empty', $cur_comparison ); ?>>
+					<?php esc_html_e( 'is not empty', 'wpforms' ); ?>
+				</option>
 			</select>
 
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
 				<?php echo esc_html( $text ); ?>:
 			</label>
-			<input type="search" name="search[term]" class="wpforms-form-search-box-term" value="<?php echo esc_attr( wp_unslash( $cur_term ) ); ?>" id="<?php echo esc_attr( $input_id ); ?>">
+			<?php $disable_term = in_array( $cur_comparison, [ 'empty', 'not_empty' ], true ); ?>
+			<input type="search" name="search[term]" class="wpforms-form-search-box-term" value="<?php echo esc_attr( wp_unslash( $cur_term ) ); ?>" id="<?php echo esc_attr( $input_id ); ?>"<?php echo $disable_term ? ' disabled' : ''; ?>>
 
 			<button type="submit" class="button"><?php echo esc_html( $text ); ?></button>
 		</p>

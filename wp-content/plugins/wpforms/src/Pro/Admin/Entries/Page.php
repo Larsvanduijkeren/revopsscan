@@ -203,22 +203,25 @@ class Page {
 			'restored',
 		];
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		if ( isset( $_GET['paged'] ) && (int) $_GET['paged'] < 2 ) {
 			$remove_args[] = 'paged';
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if ( ! isset( $_GET['search']['term'] ) || wpforms_is_empty_string( $_GET['search']['term'] ) ) {
-			$remove_args[] = 'search';
+			$comparison = isset( $_GET['search']['comparison'] ) ? sanitize_text_field( wp_unslash( $_GET['search']['comparison'] ) ) : '';
+
+			if ( ! $this->is_comparison_without_term( $comparison ) ) {
+				$remove_args[] = 'search';
+			}
 		}
 
 		if ( empty( $this->get_filtered_dates() ) ) {
 			$remove_args[] = 'date';
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		$_SERVER['REQUEST_URI'] = remove_query_arg( $remove_args, $_SERVER['REQUEST_URI'] );
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 	}
 
 	/**
@@ -462,7 +465,7 @@ class Page {
 	 *
 	 * @return array $entries_id Entry IDs.
 	 */
-	private function process_trash_data( $form_id ) {
+	private function process_trash_data( int $form_id ) {
 
 		// Check if entries filtered.
 		// This also checks if there's entry ids provided. See: FilterSearch Trait.
@@ -514,7 +517,7 @@ class Page {
 	 *
 	 * @return int  $trashed Number of trashed entries.
 	 */
-	private function process_trash_with_ids( $entry_ids, $form_id ) {
+	private function process_trash_with_ids( $entry_ids, $form_id ): int {
 
 		$trashed = 0;
 		$user_id = get_current_user_id();
@@ -580,9 +583,15 @@ class Page {
 			return false;
 		}
 
-		$expected = [ 'field', 'comparison', 'term' ];
+		$expected   = [ 'field', 'comparison', 'term' ];
+		$comparison = isset( $_GET['search']['comparison'] ) ? sanitize_text_field( wp_unslash( $_GET['search']['comparison'] ) ) : '';
 
 		foreach ( $expected as $field ) {
+
+			if ( $field === 'term' && $this->is_comparison_without_term( $comparison ) ) {
+				continue;
+			}
+
 			if ( ! isset( $_GET['search'][ $field ] ) || $_GET['search'][ $field ] === '' ) {
 				return false;
 			}
@@ -599,7 +608,7 @@ class Page {
 	 *
 	 * @return string
 	 */
-	protected function get_filter_search_html() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity
+	protected function get_filter_search_html(): string { // phpcs:ignore Generic.Metrics.CyclomaticComplexity
 
 		$form_id = $this->get_filtered_form_id();
 		$data    = $this->get_filter_search_parts();
@@ -613,17 +622,18 @@ class Page {
 			'contains_not' => __( 'does not contain', 'wpforms' ),
 			'is'           => __( 'is', 'wpforms' ),
 			'is_not'       => __( 'is not', 'wpforms' ),
+			'empty'        => __( 'is empty', 'wpforms' ),
+			'not_empty'    => __( 'is not empty', 'wpforms' ),
 		];
-		$comparison  = isset( $comparisons[ $data['comparison'] ] ) ? $comparisons[ $data['comparison'] ] : $comparisons['contains'];
-		$field       = isset( $data['field'] ) ? $data['field'] : '';
-		$term        = isset( $data['term'] ) ? $data['term'] : '';
+		$comparison  = $comparisons[ $data['comparison'] ] ?? $comparisons['contains'];
+		$field       = $data['field'] ?? '';
+		$term        = $data['term'] ?? '';
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! empty( $_GET['search']['term'] ) && wpforms_is_empty_string( $term ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$term = htmlspecialchars( wp_unslash( $_GET['search']['term'] ) );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		if ( is_numeric( $field ) && $form_id ) {
 			$meta = wpforms()->obj( 'form' )->get_field( $form_id, $field );
@@ -634,6 +644,14 @@ class Page {
 		} else {
 			$advanced_options = Helpers::get_search_fields_advanced_options();
 			$field            = ! empty( $advanced_options[ $field ] ) ? $advanced_options[ $field ] : __( 'any form field', 'wpforms' );
+		}
+
+		if ( $this->is_comparison_without_term( $data['comparison'] ) ) {
+			return sprintf( /* translators: %1$s - field name, %2$s - operation. */
+				__( 'where %1$s %2$s', 'wpforms' ),
+				'<em>' . esc_html( $field ) . '</em>',
+				esc_html( $comparison )
+			);
 		}
 
 		return sprintf( /* translators: %1$s - field name, %2$s - operation, %3$s term. */
@@ -686,7 +704,7 @@ class Page {
 	 *
 	 * @return array
 	 */
-	public function get_filters_html() {
+	public function get_filters_html(): array {
 
 		$filters = [
 			'.search-box' => $this->get_filter_search_html(),
@@ -824,11 +842,15 @@ class Page {
 	 *
 	 * @return bool
 	 */
-	protected function is_list_filtered() {
+	protected function is_list_filtered(): bool {
 
 		$search_parts = $this->get_filter_search_parts();
 		$dates        = $this->get_filtered_dates();
 		$is_filtered  = ! empty( $dates ) || ( isset( $search_parts['term'] ) && ! wpforms_is_empty_string( $search_parts['term'] ) );
+
+		if ( ! $is_filtered && ! empty( $search_parts['comparison'] ) && $this->is_comparison_without_term( $search_parts['comparison'] ) ) {
+			$is_filtered = true;
+		}
 
 		/**
 		 * Allows to mark the entries list as filtered or not, based on certain conditions.
@@ -1179,7 +1201,7 @@ class Page {
 
 		$read_url_args = [ 'action' => 'markread' ];
 
-		if ( isset( $_GET['status'] ) && ! empty( $_GET['status'] ) ) {
+		if ( ! empty( $_GET['status'] ) ) {
 			$read_url_args['status'] = sanitize_key( $_GET['status'] );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
@@ -1308,7 +1330,7 @@ class Page {
 			<div class="form-list">
 				<ul>
 					<?php
-					foreach ( $this->forms as $key => $form ) {
+					foreach ( $this->forms as $form ) {
 						if ( $this->form_id === $form->ID ) {
 							continue;
 						}
@@ -1403,9 +1425,11 @@ class Page {
 	 *
 	 * @param array $strings JS strings.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function js_strings( $strings ) {
+	public function js_strings( $strings ): array {
+
+		$strings = (array) $strings;
 
 		$strings['lang_code']    = sanitize_key( wpforms_get_language_code() );
 		$strings['default_date'] = [];
@@ -1448,5 +1472,19 @@ class Page {
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Check if the comparison type does not require a search term.
+	 *
+	 * @since 1.9.9
+	 *
+	 * @param string $comparison Comparison operator.
+	 *
+	 * @return bool
+	 */
+	private function is_comparison_without_term( string $comparison ): bool {
+
+		return in_array( $comparison, [ 'empty', 'not_empty' ], true );
 	}
 }

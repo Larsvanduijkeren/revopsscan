@@ -5,7 +5,7 @@ Tags: seo, WordPress SEO, google search console, schema, redirection,
 Tested up to: 7.0
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.0.267
+Stable tag: 1.0.269
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -339,10 +339,10 @@ Please drop us an email at support@rankmath.com, and we will be more than happy 
 
 == Changelog ==
 
-= 1.0.267 [Apr 01, 2026] =
-- Fixed: PHP error when [Focus keyword](https://rankmath.com/kb/what-is-a-focus-keyword/) is stored in array format
-- Fixed: PHP warnings related to [Analytics](https://rankmath.com/kb/analytics/) when connecting the site from the Analytics page
-- Fixed: `plugin_version` parameter is now always sent to the [Content AI](https://rankmath.com/content-ai/) as part of the payload
-- Fixed: WPML notice to activate the String Translation plugin was shown even when it was already active
+= 1.0.269 [Apr 30, 2026] =
+- Improved: [HUGE!] [Content AI now uses a feature-based usage system](https://rankmath.com/kb/content-ai-credits-migration/?play-video=DKMXI71fboM) with monthly limits per feature. This replaces the previous AI credits system and provides a higher overall usage limit
+- Fixed: Deleting the [backup from the Import & Export tab](https://rankmath.com/kb/import-export-settings/#performing-and-restoring-backups), changes the names of other backups to `[object Object]`
+- Fixed: JS warnings related to the [Schema](https://rankmath.com/kb/rich-snippets/) shown in the browser's console
+- Fixed: [Redirect option in the Advanced tab](https://rankmath.com/kb/advanced-tab/#redirect) was shown to users who do not have access to Redirections
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

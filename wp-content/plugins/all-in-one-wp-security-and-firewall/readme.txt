@@ -4,8 +4,8 @@ Donate link: https://david.dw-perspective.org.uk/donate
 Tags: security, malware scanning, two factor authentication, firewall, login security
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 6.9
-Stable tag: 5.4.6
+Tested up to: 7.0
+Stable tag: 5.4.7
 License: GPLv3 or later
 
 Protect your website investment with All-In-One Security (AIOS) – a comprehensive and easy to use security plugin designed especially for WordPress. Featuring login security tools, a cutting-edge firewall and much more.
@@ -244,6 +244,27 @@ Go to the settings menu after you activate the plugin and follow the instruction
 1. Features list.
 
 == Changelog ==
+
+= 5.4.7 - 27/Apr/2026 =
+
+* FEATURE: Added a dashboard widget for the top 5 failed login attempts by IP & username and a chart for the number of failed logins over the last 7 days.
+* FIX: WordPress 7.0 admin UI compatibility issues resolved.
+* FIX: Blacklist IP and User Agent firewalls could still be active when turned off.
+* FIX: Table sorting indicators not being shown on WordPress version 6.3 and above.
+* FIX: "Set up IP address detection settings" button not working in setup notice.
+* FIX: Bulk actions and filter missing from tables on mobile resolutions.
+* FIX: Resolved an issue where HTML tags were appearing in the "Rename Login Page" description.
+* FIX: 404 events no longer logged for genuine search bots (e.g. Google/Bing/Yahoo).
+* FIX: Used esc_url_raw() instead of sanitize_url() to resolve the deprecation notice in WordPress 5.0.
+* FIX: Fixed "ReflectionMethod::setAccessible is deprecated as of PHP 8.5" notice.
+* FIX: PHP Notice on WP < 5.5.0 when installing from zip. Undefined property: Plugin_Upgrader::$new_plugin_data
+* FIX: Resolved PHP warning - WPCF7_TagGenerator::add(): Use of tag generator instances older than version 2 is deprecated.
+* TWEAK: Improved password strength tool readability by using zxcvbn library included in WordPress.
+* TWEAK: Various text improvements/updates for better clarity and explanation of features.
+* TWEAK: Updated the Googlebot IP range API URL.
+* TWEAK: Updated the UI for the security points breakdown widget
+* TWEAK: Hash HTTP Authentication password.
+* TWEAK: Add a notice for PHP 7.3 and below end of support.
 
 = 5.4.6 - 27/Jan/2026 =
 
@@ -1665,4 +1686,4 @@ those who want to enable the basic firewall but do not have "AllowOverride" opti
 - First commit to the WP repository.
 
 == Upgrade Notice ==
-* 5.4.6: Fixes some bugs in relation to the new onboarding wizard. A recommended update for all.
+* 5.4.7: Added failed login dashboard widget & chart, improved UI/readability, and fixed multiple compatibility, firewall, logging, and deprecation issues across WordPress and PHP versions.

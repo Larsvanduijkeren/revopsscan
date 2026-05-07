@@ -897,7 +897,7 @@ class AIOWPSecurity_Captcha {
 		if (!class_exists('WPCF7_TagGenerator')) return;
 
 		$tag_generator = WPCF7_TagGenerator::get_instance();
-		$tag_generator->add('aios-captcha', sprintf(__('%s captcha', 'all-in-one-wp-security-and-firewall'), 'aios'), array($this, 'contact_form_7_tag_generator_button'), '');
+		$tag_generator->add('aios-captcha', sprintf(__('%s captcha', 'all-in-one-wp-security-and-firewall'), 'aios'), array($this, 'contact_form_7_tag_generator_button'), array('version' => '2'));
 	}
 
 	/**
@@ -914,7 +914,7 @@ class AIOWPSecurity_Captcha {
 			</fieldset>
 		</div>
 		<div class="insert-box">
-			<input type="text" name="<?php echo esc_attr($type); ?>" class="tag code" readonly="readonly" onfocus="this.select()" />
+			<input type="text" name="<?php echo esc_attr($type); ?>" value="[<?php echo esc_attr($type); ?>]" class="tag code" readonly="readonly" onfocus="this.select()" />
 			<div class="submitbox">
 				<input type="button" class="button button-primary insert-tag" value="<?php echo esc_attr(__('Insert tag', 'all-in-one-wp-security-and-firewall')); ?>" />
 			</div>

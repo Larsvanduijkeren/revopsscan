@@ -21,6 +21,7 @@ export default function initTheme({$, AOS, Lenis, Swiper, Navigation, Pagination
         reviewSelectionSlider(Swiper, Navigation, Pagination);
         postSelectionSlider(Swiper, Scrollbar);
         contentCardsSlider(Swiper, Scrollbar);
+        featuresSlider($, Swiper, Navigation, Autoplay);
         featureLottieTabs($, lottie);
 
         initAosAndLenis($, AOS, Lenis);
@@ -324,6 +325,123 @@ function contentCardsSlider(Swiper, Scrollbar) {
                 1200: { slidesPerView: 3 },
             },
         },
+    });
+}
+
+function featuresSlider($, Swiper, Navigation, Autoplay) {
+    const $stages = $('[data-features-slider]');
+    if (!$stages.length || !Swiper || !Navigation) {
+        return;
+    }
+
+    const MAX_SLIDES_PER_VIEW = 3;
+    const MIN_TOTAL_SLIDES = MAX_SLIDES_PER_VIEW * 3 + 1; // 10
+
+    $stages.each(function () {
+        const stage = this;
+        const $stage = $(stage);
+        const swiperEl = $stage.find('.features-slider__swiper')[0];
+        if (!swiperEl || swiperEl.swiper) {
+            return;
+        }
+
+        const $wrapper = $stage.find('.swiper-wrapper').first();
+        const $originalSlides = $wrapper.children('.swiper-slide');
+        const originalCount = $originalSlides.length;
+        if (!originalCount) {
+            return;
+        }
+
+        const multi = originalCount > 1;
+
+        if (multi && originalCount < MIN_TOTAL_SLIDES) {
+            const needed = MIN_TOTAL_SLIDES - originalCount;
+            for (let i = 0; i < needed; i++) {
+                const $clone = $originalSlides.eq(i % originalCount).clone(true);
+                $clone.attr('aria-hidden', 'true');
+                $clone.attr('data-features-slider-clone', '1');
+                $clone.find('a, button').attr('tabindex', '-1');
+                $wrapper.append($clone);
+            }
+        }
+
+        const prevEl = $stage.find('[data-features-slider-prev]')[0];
+        const nextEl = $stage.find('[data-features-slider-next]')[0];
+
+        const wantsAutoplay = multi && !!Autoplay;
+        const delay = parseInt($stage.attr('data-autoplay-delay') || '4500', 10) || 4500;
+
+        const modules = [Navigation];
+        if (wantsAutoplay) {
+            modules.push(Autoplay);
+        }
+
+        const options = {
+            modules,
+            loop: multi,
+            loopAdditionalSlides: multi ? 2 : 0,
+            slidesPerGroup: 1,
+            speed: 500,
+            spaceBetween: 12,
+            slidesPerView: 1,
+            centeredSlides: true,
+            grabCursor: true,
+            watchOverflow: !multi,
+            breakpoints: {
+                576: { slidesPerView: 1.4, centeredSlides: true, spaceBetween: 12 },
+                768: { slidesPerView: 2.2, centeredSlides: true, spaceBetween: 14 },
+                992: { slidesPerView: MAX_SLIDES_PER_VIEW, centeredSlides: true, spaceBetween: 12 },
+            },
+            navigation:
+                prevEl && nextEl
+                    ? {
+                          prevEl,
+                          nextEl,
+                          disabledClass: 'is-disabled',
+                      }
+                    : undefined,
+        };
+
+        if (wantsAutoplay) {
+            options.autoplay = {
+                delay,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            };
+        }
+
+        const swiper = new Swiper(swiperEl, options);
+
+        const $autoplayBtn = $stage.find('[data-features-slider-autoplay]');
+        if (wantsAutoplay && $autoplayBtn.length) {
+            const $icon = $autoplayBtn.find('[data-features-slider-autoplay-icon]');
+            const pauseLabel = $autoplayBtn.attr('data-pause-label') || '';
+            const playLabel = $autoplayBtn.attr('data-play-label') || '';
+
+            const setState = (paused) => {
+                $autoplayBtn.attr('data-state', paused ? 'paused' : 'playing');
+                $autoplayBtn.attr('aria-label', paused ? playLabel : pauseLabel);
+                $autoplayBtn.attr('aria-pressed', paused ? 'true' : 'false');
+                $icon
+                    .removeClass('fa-play fa-pause')
+                    .addClass(paused ? 'fa-play' : 'fa-pause');
+            };
+
+            setState(false);
+
+            $autoplayBtn.on('click', function () {
+                if (!swiper.autoplay) {
+                    return;
+                }
+                if (swiper.autoplay.running) {
+                    swiper.autoplay.stop();
+                    setState(true);
+                } else {
+                    swiper.autoplay.start();
+                    setState(false);
+                }
+            });
+        }
     });
 }
 

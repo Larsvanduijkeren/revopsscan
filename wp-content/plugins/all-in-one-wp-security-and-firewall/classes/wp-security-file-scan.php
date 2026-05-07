@@ -75,7 +75,7 @@ class AIOWPSecurity_Scan {
 	public function aiowps_send_file_change_alert_email($scan_result) {
 		global $aio_wp_security;
 		if ('1' == $aio_wp_security->configs->get_value('aiowps_send_fcd_scan_email')) {
-			$subject = __('All In One WP Security - File change detected', 'all-in-one-wp-security-and-firewall') . ' ' . AIOWPSecurity_Utility::convert_timestamp(null, 'l, F jS, Y \a\\t g:i a');
+			$subject = __('All In One Security - File change detected', 'all-in-one-wp-security-and-firewall') . ' ' . AIOWPSecurity_Utility::convert_timestamp(null, 'l, F jS, Y \a\\t g:i a');
 			//$attachment = array();
 			$message = __('A file change was detected on your system for site URL', 'all-in-one-wp-security-and-firewall') . ' ' . network_site_url() . __('. Scan was generated on', 'all-in-one-wp-security-and-firewall') . ' ' . AIOWPSecurity_Utility::convert_timestamp(null, 'l, F jS, Y \a\\t g:i a');
 			$message .= "\r\n\r\n".__('A summary of the scan results is shown below:', 'all-in-one-wp-security-and-firewall');

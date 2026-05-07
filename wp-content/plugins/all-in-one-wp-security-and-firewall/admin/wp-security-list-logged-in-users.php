@@ -32,7 +32,7 @@ class AIOWPSecurity_List_Logged_In_Users extends AIOWPSecurity_List_Table {
 	public function column_user_id($item) {
 		//Build row actions
 		$actions = array(
-			'logout' => '<a class="aios-force-logout-user" data-user-id="'.esc_attr($item['user_id']).'" data-message="'.esc_js(__('Are you sure you want to force this user to be logged out of this session?', 'all-in-one-wp-security-and-firewall')).'" href="">'.__('Force logout', 'all-in-one-wp-security-and-firewall').'</a>',
+			'logout' => '<a class="aios-force-logout-user" data-user-id="'.esc_attr($item['user_id']).'" data-message="'.esc_attr__('Are you sure you want to force this user to be logged out of this session?', 'all-in-one-wp-security-and-firewall').'" href="">'.esc_html__('Force logout', 'all-in-one-wp-security-and-firewall').'</a>',
 		);
 		
 		//Return the user_login contents

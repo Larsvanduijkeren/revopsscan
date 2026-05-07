@@ -8,11 +8,11 @@ if (!class_exists('AIO_WP_Security')) {
 
 	class AIO_WP_Security {
 
-		public $version = '5.4.6';
+		public $version = '5.4.7';
 
 		public $db_version = '2.1.4';
 
-		public $firewall_version = '1.0.8';
+		public $firewall_version = '1.0.10';
 
 		public $plugin_url;
 
@@ -37,9 +37,9 @@ if (!class_exists('AIO_WP_Security')) {
 
 		public $user_registration_obj;
 
-		public $scan_obj;
-
 		public $captcha_obj;
+
+		public $scan_obj;
 				
 		public $cleanup_obj;
 
@@ -133,6 +133,7 @@ if (!class_exists('AIO_WP_Security')) {
 			define('AIO_WP_SECURITY_VERSION', $this->version);
 			define('AIO_WP_SECURITY_DB_VERSION', $this->db_version);
 			define('AIO_WP_SECURITY_FIREWALL_VERSION', $this->firewall_version);
+			define('AIO_WP_SECURITY_PLUGIN_SLUG', plugin_basename(__FILE__));
 			define('AIOWPSEC_WP_HOME_URL', home_url());
 			define('AIOWPSEC_WP_SITE_URL', site_url());
 			define('AIOWPSEC_WP_URL', AIOWPSEC_WP_SITE_URL); // for backwards compatibility
@@ -200,6 +201,10 @@ if (!class_exists('AIO_WP_Security')) {
 				include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-onboarding.php');
 			}
 
+			if (!class_exists('Updraft_Tasks_Activation')) {
+				include_once AIO_WP_SECURITY_PATH.'/vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-tasks-activation.php';
+			}
+
 			// Load common files for everywhere
 			if (!class_exists('Updraft_Semaphore_3_0')) {
 				include_once AIO_WP_SECURITY_PATH.'/vendor/team-updraft/common-libs/src/updraft-semaphore/class-updraft-semaphore.php';
@@ -219,6 +224,7 @@ if (!class_exists('AIO_WP_Security')) {
 			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-utility-api.php');
 			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-general-init-tasks.php');
 			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-wp-loaded-tasks.php');
+			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-task-manager.php');
 
 			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-user-login.php');
 			include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-user-registration.php');
@@ -410,6 +416,22 @@ if (!class_exists('AIO_WP_Security')) {
 				AIOWPSecurity_Utility_Htaccess::write_to_htaccess(false);
 			}
 		}
+		
+		/**
+		 * Migrate HTTP authentication password from plain text to hashed. Version 5.4.6 and below store this in plain text
+		 *
+		 * @return void
+		 */
+		private function maybe_migrate_http_auth_password() {
+			$is_converted = $this->configs->get_value('aiowps_converted_http_authentication_password');
+
+			if ('1' !== $is_converted) {
+				$password = $this->configs->get_value('aiowps_http_authentication_password');
+				$this->configs->set_value('aiowps_http_authentication_password', wp_hash_password($password));
+				$this->configs->set_value('aiowps_converted_http_authentication_password', '1');
+				$this->configs->save_config();
+			}
+		}
 
 		/**
 		 * Upgrades the database.
@@ -459,12 +481,14 @@ if (!class_exists('AIO_WP_Security')) {
 			// DB upgrade handler - run outside admin interface
 			$this->db_upgrade_handler();
 			$this->firewall_upgrade_handler();
+			$this->maybe_migrate_http_auth_password();
 			if (is_admin()) {
 				//Do plugins_loaded operations for admin side
 				$this->admin_init = new AIOWPSecurity_Admin_Init();
 				$this->notices = new AIOWPSecurity_Notices();
 			}
 			AIOWPSecurity_Audit_Event_Handler::instance();
+			Updraft_Tasks_Activation::check_updates();
 		}
 
 		/**
@@ -491,8 +515,8 @@ if (!class_exists('AIO_WP_Security')) {
 			$this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks
 			$this->user_registration_obj = new AIOWPSecurity_User_Registration();//Do the user login operation tasks
 			$this->captcha_obj = new AIOWPSecurity_Captcha(); // Do the CAPTCHA tasks
-			$this->cleanup_obj = new AIOWPSecurity_Cleanup(); // Object to handle cleanup tasks
 			$this->scan_obj = new AIOWPSecurity_Scan();//Object to handle scan tasks
+			$this->cleanup_obj = new AIOWPSecurity_Cleanup(); // Object to handle cleanup tasks
 			$this->sender_obj = new AIOWPSecurity_Sender_Service();//Object to handle sending emails
 			$this->debug_obj =new AIOWPSecurity_Debug();//Object to handle debug tasks
 			add_action('wp_footer', array($this, 'aiowps_footer_content'));
@@ -551,7 +575,7 @@ if (!class_exists('AIO_WP_Security')) {
 				}
 				wp_logout();
 				if (isset($_GET['after_logout'])) { //Redirect to the after logout url directly
-					$after_logout_url = esc_url(sanitize_url(wp_unslash($_GET['after_logout'])));
+					$after_logout_url = esc_url_raw(wp_unslash($_GET['after_logout']));
 					AIOWPSecurity_Utility::redirect_to_url($after_logout_url);
 				}
 				$additional_data = isset($_GET['al_additional_data']) ? sanitize_text_field(wp_unslash($_GET['al_additional_data'])) : '';

@@ -54,7 +54,7 @@ class SmartTags {
 	 */
 	public function hooks(): void {
 
-		add_filter( 'wpforms_process_smart_tags', [ $this, 'process' ], 10, 5 );
+		add_filter( 'wpforms_process_smart_tags', [ $this, 'process' ], 10, 6 );
 		add_filter( 'wpforms_builder_enqueues_smart_tags', [ $this, 'builder' ] );
 		add_filter( 'wpforms_builder_strings', [ $this, 'add_builder_strings' ], 10, 2 );
 
@@ -227,30 +227,6 @@ class SmartTags {
 	}
 
 	/**
-	 * Get all smart tags in the content.
-	 *
-	 * @since 1.6.7
-	 *
-	 * @param string $content Content.
-	 *
-	 * @return array
-	 */
-	private function get_all_smart_tags( $content ) {
-
-		/**
-		 * A smart tag should start and end with a curly brace.
-		 * ([a-z0-9_]+) a smart tag name and also the first capturing group.
-		 * Lowercase letters, digits, and an underscore.
-		 * (|[ =][^\n}]*) - second capturing group:
-		 * | no characters at all or the following:
-		 * [ =][^\n}]* space or equal sign and any number of any characters except new line and closing curly brace.
-		 */
-		preg_match_all( '~{([a-z0-9_]+)(|[ =][^\n}]*)}~', $content, $smart_tags );
-
-		return array_combine( $smart_tags[0], $smart_tags[1] );
-	}
-
-	/**
 	 * Process smart tags.
 	 *
 	 * @since 1.6.7
@@ -264,7 +240,7 @@ class SmartTags {
 	 *
 	 * @return string
 	 */
-	public function process( $content, $form_data, $fields = [], $entry_id = '', $context = '' ) {
+	public function process( $content, $form_data, $fields = [], $entry_id = '', $context = '', array $context_data = [] ) {
 
 		// We shouldn't process smart tags in different WordPress editors
 		// since it produce unexpected results.
@@ -272,7 +248,7 @@ class SmartTags {
 			return $content;
 		}
 
-		$smart_tags = $this->get_all_smart_tags( $content );
+		$smart_tags = wpforms_get_all_smart_tags( $content );
 
 		if ( empty( $smart_tags ) ) {
 			return $content;
@@ -280,7 +256,7 @@ class SmartTags {
 
 		foreach ( $smart_tags as $smart_tag => $tag_name ) {
 			$class_name       = $this->get_smart_tag_class_name( $tag_name );
-			$smart_tag_object = new $class_name( $smart_tag, $context );
+			$smart_tag_object = new $class_name( $smart_tag, $context, $context_data );
 			$value            = $smart_tag_object->get_value( $form_data, $fields, $entry_id );
 			$field_id         = $smart_tag_object->get_attributes()['field_id'] ?? 0;
 			$field_id         = (int) explode( '|', $field_id )[0];

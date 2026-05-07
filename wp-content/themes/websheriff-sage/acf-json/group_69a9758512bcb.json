@@ -30,7 +30,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -45,6 +45,56 @@
             "mime_types": "",
             "allow_in_bindings": 0,
             "preview_size": "medium"
+        },
+        {
+            "key": "field_69a975_logo_secondary",
+            "label": "Secondary logo",
+            "name": "logo_secondary",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Optional. Shown next to the main logo (e.g. partner or co-brand mark).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0,
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_69a975_logo_secondary_link",
+            "label": "Secondary logo link",
+            "name": "logo_secondary_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Optional URL for the secondary logo. Leave empty to render the logo without a link.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69a975_logo_secondary",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "allow_in_bindings": 0
         },
         {
             "key": "field_69a9758512bcb_hsupport_link",
@@ -579,5 +629,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1776200000
+    "modified": 1778328000
 }

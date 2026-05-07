@@ -27,6 +27,8 @@ class AcfBlockServiceProvider extends SageServiceProvider
         'feature-lottie-tabs' => 'Feature Lottie tabs',
         'contact'       => 'Contact',
         'gallery'       => 'Gallery',
+        'cta-banner'    => 'CTA banner',
+        'features-slider' => 'Features slider',
     ];
 
     public function boot(): void

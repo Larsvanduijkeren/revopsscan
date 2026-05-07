@@ -82,6 +82,8 @@
   @nested-import "./partials/components/gutenberg/feature-lottie-tabs.css";
   @nested-import "./partials/components/gutenberg/contact.css";
   @nested-import "./partials/components/gutenberg/gallery.css";
+  @nested-import "./partials/components/gutenberg/cta-banner.css";
+  @nested-import "./partials/components/gutenberg/features-slider.css";
 
   .card {
     max-width: 100%;
@@ -175,6 +177,14 @@
 
 .block-editor-block-list__block[data-type="acf/post-selection"].is-selected {
   @nested-import "./partials/components/gutenberg/post-selection.css";
+}
+
+.block-editor-block-list__block[data-type="acf/cta-banner"].is-selected {
+  @nested-import "./partials/components/gutenberg/cta-banner.css";
+}
+
+.block-editor-block-list__block[data-type="acf/features-slider"].is-selected {
+  @nested-import "./partials/components/gutenberg/features-slider.css";
 }
 
 /* Editor: post selection slider — stack slides */

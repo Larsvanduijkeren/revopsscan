@@ -32,10 +32,10 @@ class AIOWPSecurity_List_Registered_Users extends AIOWPSecurity_List_Table {
 	public function column_ID($item) {
 		//Build row actions
 		$actions = array(
-			'view' => '<a href="user-edit.php?user_id='.$item['ID'].'" target="_blank">'.__('View', 'all-in-one-wp-security-and-firewall').'</a>',
-			'approve_acct' => '<a class="aios-approve-user-acct" href="" data-id="'.esc_attr($item['ID']).'" data-message="'.esc_js(__('Are you sure you want to approve this account?', 'all-in-one-wp-security-and-firewall')).'">'. __('Approve', 'all-in-one-wp-security-and-firewall') . '</a>',
-			'delete_acct' => '<a class="aios-delete-user-acct" href="" data-id="'.esc_attr($item['ID']).'" data-message="'.esc_js(__('Are you sure you want to delete this account?', 'all-in-one-wp-security-and-firewall')).'">'. __('Delete', 'all-in-one-wp-security-and-firewall') . '</a>',
-			'block_ip' => '<a class="aios-block-ip" href="" data-ip="'.esc_attr($item['ip_address']).'" data-message="'.esc_js(__('Are you sure you want to block this IP address?', 'all-in-one-wp-security-and-firewall')).'">'. __('Block IP', 'all-in-one-wp-security-and-firewall') . '</a>',
+			'view' => '<a href="user-edit.php?user_id='.$item['ID'].'" target="_blank">'.esc_html__('View', 'all-in-one-wp-security-and-firewall').'</a>',
+			'approve_acct' => '<a class="aios-approve-user-acct" href="" data-id="'.esc_attr($item['ID']).'" data-message="'.esc_attr__('Are you sure you want to approve this account?', 'all-in-one-wp-security-and-firewall').'">'. esc_html__('Approve', 'all-in-one-wp-security-and-firewall') . '</a>',
+			'delete_acct' => '<a class="aios-delete-user-acct" href="" data-id="'.esc_attr($item['ID']).'" data-message="'.esc_attr__('Are you sure you want to delete this account?', 'all-in-one-wp-security-and-firewall').'">'. esc_html__('Delete', 'all-in-one-wp-security-and-firewall') . '</a>',
+			'block_ip' => '<a class="aios-block-ip" href="" data-ip="'.esc_attr($item['ip_address']).'" data-message="'.esc_attr__('Are you sure you want to block this IP address?', 'all-in-one-wp-security-and-firewall').'">'. esc_html__('Block IP', 'all-in-one-wp-security-and-firewall') . '</a>',
 		);
 		
 		//Return the user_login contents

@@ -89,34 +89,42 @@ trait FilterSearch {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 		// Check for the run switch and that all data is present.
+		if ( ! $form_id || ! isset( $_REQUEST['search'] ) ) {
+			return [];
+		}
+
+		// Determine comparison early to decide whether a term is required.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$raw_comparison = isset( $_REQUEST['search']['comparison'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search']['comparison'] ) ) : '';
+		$requires_term  = ! in_array( $raw_comparison, [ 'empty', 'not_empty' ], true );
+
 		if (
-			! $form_id ||
-			! isset( $_REQUEST['search'] ) ||
-			(
-				! isset( $_REQUEST['search']['term'] ) ||
-				! isset( $_REQUEST['search']['field'] ) ||
-				empty( $_REQUEST['search']['comparison'] )
-			)
+			! isset( $_REQUEST['search']['field'] ) ||
+			empty( $_REQUEST['search']['comparison'] ) ||
+			( $requires_term && ! isset( $_REQUEST['search']['term'] ) )
 		) {
 			return [];
 		}
 
-		$term = sanitize_text_field( wp_unslash( $_REQUEST['search']['term'] ) );
+		$term = isset( $_REQUEST['search']['term'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['search']['term'] ) ) : '';
 
 		/*
 		 * Because empty fields were not migrated to a field table in 1.4.3, we don't have that data
 		 * and can't filter those with empty values.
 		 * The current workaround - displays all entries (instead of none at all).
 		 */
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-		if ( wpforms_is_empty_string( $term ) && wpforms_is_empty_string( $_REQUEST['search']['term'] ) ) {
+		if (
+			$requires_term &&
+			wpforms_is_empty_string( $term ) &&
+			isset( $_REQUEST['search']['term'] ) &&
+			wpforms_is_empty_string( $_REQUEST['search']['term'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		) {
 			return [];
 		}
 
 		// Prepare the data.
 		$field      = sanitize_text_field( wp_unslash( $_REQUEST['search']['field'] ) ); // We must use it as a string for the work field with id equal 0.
-		$comparison = sanitize_text_field( wp_unslash( $_REQUEST['search']['comparison'] ) );
-		$comparison = in_array( $comparison, [ 'contains', 'contains_not', 'is', 'is_not' ], true ) ? $comparison : 'contains';
+		$comparison = in_array( $raw_comparison, [ 'contains', 'contains_not', 'is', 'is_not', 'empty', 'not_empty' ], true ) ? $raw_comparison : 'contains';
 
 		return [
 			'field'      => $field,
@@ -189,7 +197,9 @@ trait FilterSearch {
 	 *
 	 * @return array Filtered arguments.
 	 */
-	public function get_filtered_entry_table_args( $args ) {
+	public function get_filtered_entry_table_args( $args ): array {
+
+		$args = (array) $args;
 
 		if ( empty( $this->filter['is_filtered'] ) ) {
 			return $args;
@@ -205,7 +215,7 @@ trait FilterSearch {
 	 *
 	 * @return int
 	 */
-	private function get_filtered_form_id() {
+	private function get_filtered_form_id(): int {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_REQUEST['form_id'] ) ) {

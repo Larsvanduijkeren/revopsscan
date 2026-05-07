@@ -1,0 +1,137 @@
+section.cta-banner {
+    .container {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-md);
+
+        @media screen and (min-width: 992px) {
+            padding-top: var(--space-lg);
+            padding-bottom: var(--space-lg);
+        }
+    }
+
+    .cta-banner__card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background-color: var(--brand-white);
+        background-image: radial-gradient(
+            circle at top right,
+            color-mix(in srgb, var(--brand-orange) 22%, transparent) 0%,
+            transparent 60%
+        );
+        background-repeat: no-repeat;
+        border: 1px solid var(--brand-grey);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+    }
+
+    .cta-banner__content {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 720px;
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .cta-banner__title {
+        margin: 0 0 12px;
+        font-family: var(--font-heading);
+        font-size: clamp(1.5rem, 2.4vw, 2rem);
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--brand-heading);
+    }
+
+    .cta-banner__text {
+        color: var(--brand-text);
+        font-size: 1rem;
+        line-height: 1.55;
+
+        p {
+            margin: 0 0 8px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        a {
+            color: var(--brand-orange);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+
+            &:hover,
+            &:focus {
+                color: var(--brand-text);
+            }
+        }
+    }
+
+    .cta-banner__buttons {
+        flex-shrink: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &.cta-banner--accent {
+        .cta-banner__card {
+            background-color: var(--brand-surface-raised);
+            background-image:
+                radial-gradient(
+                    circle at top right,
+                    color-mix(in srgb, var(--brand-orange) 35%, transparent) 0%,
+                    transparent 60%
+                ),
+                linear-gradient(
+                    135deg,
+                    color-mix(in srgb, var(--brand-orange) 18%, var(--brand-surface-raised)) 0%,
+                    var(--brand-surface-raised) 70%
+                );
+            border-color: color-mix(in srgb, var(--brand-orange) 35%, var(--brand-grey));
+        }
+    }
+
+    &.cta-banner--empty {
+        .cta-banner__empty-msg {
+            margin: 0;
+            padding: 24px 0;
+            text-align: center;
+            color: var(--brand-purple-soft);
+            font-size: 0.9375rem;
+        }
+    }
+
+    @media only screen and (max-width: 991px) {
+        .cta-banner__card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-sm);
+        }
+
+        .cta-banner__buttons {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 575px) {
+        .cta-banner__buttons {
+            flex-direction: column;
+            align-items: stretch;
+
+            .btn,
+            .btn-ghost {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}

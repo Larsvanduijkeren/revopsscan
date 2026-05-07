@@ -31,7 +31,7 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
 			//Add IP to block URL
 			$ip = $item['comment_author_IP'];
 			$actions = array(
-				'block' => '<a class="aios-block-author-ip" data-ip="'.esc_attr($ip).'" data-message="'.esc_js(__('Are you sure you want to permanently block this IP address?', 'all-in-one-wp-security-and-firewall')).'" href="">'.__('Block', 'all-in-one-wp-security-and-firewall').'</a>',
+				'block' => '<a class="aios-block-author-ip" data-ip="'.esc_attr($ip).'" data-message="'.esc_attr__('Are you sure you want to permanently block this IP address?', 'all-in-one-wp-security-and-firewall').'" href="">'.esc_html__('Block', 'all-in-one-wp-security-and-firewall').'</a>',
 			);
 		}
 		

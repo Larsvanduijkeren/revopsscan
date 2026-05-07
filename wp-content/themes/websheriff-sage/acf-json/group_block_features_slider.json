@@ -1,0 +1,191 @@
+{
+    "key": "group_block_features_slider",
+    "title": "Block: Features slider",
+    "fields": [
+        {
+            "key": "field_fs_top_icon",
+            "label": "Top icon (Font Awesome)",
+            "name": "top_icon",
+            "type": "text",
+            "instructions": "Optional. Shown as a small chip in the top-left of the header. E.g. fa-solid fa-bolt, fa-solid fa-sparkles, or just \"bolt\".",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": "fa-solid fa-bolt"
+        },
+        {
+            "key": "field_fs_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "instructions": "Optional small badge above the title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_fs_title",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {"width": "60", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_fs_top_button",
+            "label": "Top-right button",
+            "name": "top_button",
+            "type": "link",
+            "instructions": "Optional CTA shown in the top-right corner of the heading row.",
+            "required": 0,
+            "wrapper": {"width": "40", "class": "", "id": ""},
+            "return_format": "array"
+        },
+        {
+            "key": "field_fs_text",
+            "label": "Intro text",
+            "name": "text",
+            "type": "wysiwyg",
+            "instructions": "Optional description shown next to the title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "tabs": "visual",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_fs_autoplay",
+            "label": "Autoplay",
+            "name": "autoplay",
+            "type": "true_false",
+            "instructions": "Slider auto-advances whenever there are two or more items (delay below). This toggle is kept for backwards compatibility with older content.",
+            "required": 0,
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": 1,
+            "ui": 1
+        },
+        {
+            "key": "field_fs_autoplay_delay",
+            "label": "Autoplay delay (ms)",
+            "name": "autoplay_delay",
+            "type": "number",
+            "instructions": "How long each slide is shown before advancing.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_fs_autoplay",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {"width": "50", "class": "", "id": ""},
+            "default_value": 4500,
+            "min": 1500,
+            "max": 15000,
+            "step": 100
+        },
+        {
+            "key": "field_fs_items",
+            "label": "Items",
+            "name": "items",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_fs_item_title",
+            "button_label": "Add feature",
+            "sub_fields": [
+                {
+                    "key": "field_fs_item_image",
+                    "label": "Image",
+                    "name": "image",
+                    "type": "image",
+                    "instructions": "Visual shown at the top of the card (illustration / screenshot).",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "return_format": "array",
+                    "library": "all",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_fs_items"
+                },
+                {
+                    "key": "field_fs_item_icon",
+                    "label": "Icon (Font Awesome)",
+                    "name": "icon_class",
+                    "type": "text",
+                    "instructions": "Optional. E.g. fa-solid fa-bolt. Shown as a small badge in the top-left of the image.",
+                    "required": 0,
+                    "wrapper": {"width": "50", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": "fa-solid fa-bolt",
+                    "parent_repeater": "field_fs_items"
+                },
+                {
+                    "key": "field_fs_item_title",
+                    "label": "Title",
+                    "name": "item_title",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "placeholder": "",
+                    "parent_repeater": "field_fs_items"
+                },
+                {
+                    "key": "field_fs_item_text",
+                    "label": "Description",
+                    "name": "item_text",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "rows": 3,
+                    "new_lines": "br",
+                    "parent_repeater": "field_fs_items"
+                },
+                {
+                    "key": "field_fs_item_link",
+                    "label": "Link",
+                    "name": "link",
+                    "type": "link",
+                    "instructions": "Optional CTA below the description (e.g. Learn more).",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "return_format": "array",
+                    "parent_repeater": "field_fs_items"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/features-slider"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1778329000
+}

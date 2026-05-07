@@ -1,0 +1,105 @@
+{
+    "key": "group_block_cta_banner",
+    "title": "Block: CTA banner",
+    "fields": [
+        {
+            "key": "field_cta_banner_style",
+            "label": "Style",
+            "name": "style",
+            "type": "button_group",
+            "instructions": "Visual variant. \"Accent\" gives the banner a stronger orange-tinted background.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "choices": {
+                "default": "Default",
+                "accent": "Accent"
+            },
+            "default_value": "default",
+            "return_format": "value",
+            "allow_null": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_cta_banner_label",
+            "label": "Label",
+            "name": "label",
+            "type": "text",
+            "instructions": "Optional small label shown above the title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_cta_banner_title",
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_cta_banner_text",
+            "label": "Text",
+            "name": "text",
+            "type": "wysiwyg",
+            "instructions": "Optional supporting copy below the title.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "tabs": "visual",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_cta_banner_buttons",
+            "label": "Buttons",
+            "name": "buttons",
+            "type": "repeater",
+            "instructions": "Add one or more call-to-action buttons. The first uses the solid style; the rest use the ghost style.",
+            "required": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_cta_banner_button",
+            "button_label": "Add button",
+            "sub_fields": [
+                {
+                    "key": "field_cta_banner_button",
+                    "label": "Button",
+                    "name": "button",
+                    "type": "link",
+                    "instructions": "",
+                    "required": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "return_format": "array",
+                    "parent_repeater": "field_cta_banner_buttons"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/cta-banner"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1778328000
+}

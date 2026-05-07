@@ -15,7 +15,9 @@ $footer_address = get_field('footer_address', 'option');
 $footer_slogan = get_field('footer_slogan', 'option');
 $display_logo = !empty($footer_logo) ? $footer_logo : $logo;
 $footer_credits = get_field('footer_credits', 'option');
-$show_footer_credits = is_string($footer_credits) && trim(wp_strip_all_tags($footer_credits)) !== '';
+$has_credits_text = is_string($footer_credits) && trim(wp_strip_all_tags($footer_credits)) !== '';
+$has_copyright_nav = has_nav_menu('copyright-nav');
+$show_extra_footer = $footer_slogan || $has_copyright_nav;
 @endphp
 
 <footer class="footer">
@@ -92,15 +94,30 @@ $show_footer_credits = is_string($footer_credits) && trim(wp_strip_all_tags($foo
             </div>
         </div>
 
-        @if($footer_slogan)
-        <div class="extra-footer">
-            <span class="slogan">{!! $footer_slogan !!}</span>
+        @if($show_extra_footer)
+        <div class="extra-footer{{ $footer_slogan || !$has_copyright_nav ? '' : ' extra-footer--nav-only' }}">
+            @if($footer_slogan)
+            <div class="slogan">{!! $footer_slogan !!}</div>
+            @endif
+
+            @if($has_copyright_nav)
+            <div class="credits">
+                {!! wp_nav_menu([
+                    'theme_location' => 'copyright-nav',
+                    'echo' => false,
+                    'container' => false,
+                    'menu_class' => 'credits-nav',
+                    'depth' => 1,
+                    'fallback_cb' => false,
+                ]) !!}
+            </div>
+            @endif
         </div>
         @endif
     </div>
 </footer>
 
-@if($show_footer_credits)
+@if($has_credits_text)
 <div class="footer-credits">
     <div class="container footer-credits__inner">
         <div class="footer-credits__content">

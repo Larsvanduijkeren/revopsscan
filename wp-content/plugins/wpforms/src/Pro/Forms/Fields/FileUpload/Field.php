@@ -146,8 +146,6 @@ class Field extends FieldLite {
 		add_filter( 'wpforms_process_after_filter', [ $this, 'upload_complete' ], PHP_INT_MAX, 3 );
 		add_action( 'wpforms_process_entry_saved', [ $this, 'create_protection' ], 10, 5 );
 
-		add_filter( 'wpforms_pro_fields_entry_preview_is_field_support_preview_file-upload_field', '__return_false' );
-
 		// Update smart tag value for protected files.
 		add_filter( 'wpforms_smart_tags_formatted_field_value', [ $this, 'smart_tags_formatted_field_value' ], 10, 4 );
 
@@ -615,20 +613,6 @@ class Field extends FieldLite {
 	}
 
 	/**
-	 * Input name.
-	 *
-	 * The input name is the name in which the data is expected to be sent in from the client.
-	 *
-	 * @since 1.9.4
-	 *
-	 * @return string
-	 */
-	public function get_input_name(): string {
-
-		return sprintf( 'wpforms_%d_%d', $this->form_id, $this->field_id );
-	}
-
-	/**
 	 * Maximum size for a chunk in file uploads.
 	 *
 	 * @since 1.9.4
@@ -1087,57 +1071,6 @@ class Field extends FieldLite {
 	}
 
 	/**
-	 * Format the field value for smart tags.
-	 *
-	 * @since 1.9.4
-	 *
-	 * @param string $value     The field value.
-	 * @param int    $field_id  The field ID.
-	 * @param array  $fields    The form fields.
-	 * @param string $field_key The field key.
-	 *
-	 * @return string
-	 * @noinspection PhpMissingParamTypeInspection
-	 * @noinspection PhpUnusedParameterInspection
-	 */
-	public function smart_tags_formatted_field_value( $value, $field_id, $fields, $field_key ) {
-
-		$field = $fields[ $field_id ] ?? [];
-
-		return $this->get_formatted_value( $value, $field );
-	}
-
-	/**
-	 * Get formatted value.
-	 *
-	 * @since 1.9.4
-	 *
-	 * @param string $value Field value.
-	 * @param array  $field Field settings.
-	 *
-	 * @return string
-	 */
-	private function get_formatted_value( $value, array $field ) {
-
-		$type = $field['type'] ?? '';
-
-		if ( $type !== $this->type ) {
-			return $value;
-		}
-
-		if ( empty( $field['style'] ) ) {
-			return $this->get_file_url( $field );
-		}
-
-		$values = (array) $field['value_raw'];
-		$values = array_filter( $values );
-
-		$urls = $this->get_file_urls( $values );
-
-		return empty( $urls ) ? $value : implode( "\n", $urls );
-	}
-
-	/**
 	 * Export entry field data.
 	 *
 	 * @since 1.9.4
@@ -1196,26 +1129,6 @@ class Field extends FieldLite {
 
 			wpforms()->obj( 'file_restrictions' )->add( $restriction );
 		}
-	}
-
-	/**
-	 * Get file URLs.
-	 *
-	 * @since 1.9.4
-	 *
-	 * @param array $values Field values.
-	 *
-	 * @return array
-	 */
-	private function get_file_urls( array $values ): array {
-
-		$urls = [];
-
-		foreach ( $values as $file ) {
-			$urls[] = $this->get_file_url( $file );
-		}
-
-		return $urls;
 	}
 
 	/**
@@ -2028,13 +1941,13 @@ class Field extends FieldLite {
 	 *
 	 * @since 1.9.4
 	 *
-	 * @param string $form_id Form ID.
+	 * @param string|int $form_id Form ID.
 	 *
 	 * @return string
 	 */
 	public static function get_form_files_path( $form_id ): string {
 
-		$form_data = wpforms()->obj( 'form' )->get( $form_id );
+		$form_data = wpforms()->obj( 'form' )->get( $form_id, [ 'cap' => false ] );
 
 		if ( empty( $form_data ) ) {
 			return '';
@@ -2164,8 +2077,19 @@ class Field extends FieldLite {
 			return '';
 		}
 
-		// We delete attachments from Media Library only for spam entries.
-		if ( $entry->status === 'spam' && ! empty( $file_data['attachment_id'] ) ) {
+		/**
+		 * Allow forcing to delete an uploaded file.
+		 *
+		 * @since 1.10.0
+		 *
+		 * @param bool   $force_delete Whether to force to delete an uploaded file.
+		 * @param object $entry        Entry object.
+		 */
+		$force_delete = (bool) apply_filters( 'wpforms_pro_forms_fields_file_upload_field_delete_uploaded_file_force', false, $entry );
+
+		// We delete attachments from Media Library for spam entries
+		// or when the AS task for purge entries is run.
+		if ( ( $entry->status === 'spam' || $force_delete ) && ! empty( $file_data['attachment_id'] ) ) {
 			wp_delete_attachment( $file_data['attachment_id'], true );
 
 			return $file_data['file_user_name'];

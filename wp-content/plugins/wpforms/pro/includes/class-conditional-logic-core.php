@@ -94,7 +94,7 @@ class WPForms_Conditional_Logic_Core {
 		?>
 		<script type="text/html" id="tmpl-wpforms-conditional-block">
 			<# var containerID = data.fieldName.replace(/]/g, '').replace(/\[/g, '-'); #>
-			<div class="wpforms-conditional-groups" id="wpforms-conditional-groups-{{ containerID }}">
+			<div class="wpforms-conditional-groups wpforms-undo-redo-container" id="wpforms-conditional-groups-{{ containerID }}">
 				<h4>
 					<select name="{{ data.fieldName }}[conditional_type]">
 						<# _.each(data.actions, function(key, val) { #>

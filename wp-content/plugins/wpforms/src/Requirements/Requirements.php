@@ -327,12 +327,16 @@ class Requirements {
 		],
 		'wpforms-user-journey/wpforms-user-journey.php'                 => [],
 		'wpforms-user-registration/wpforms-user-registration.php'       => [],
+		'wpforms-quiz/wpforms-quiz.php'                                 => [],
 		'wpforms-webhooks/wpforms-webhooks.php'                         => [
 			self::LICENSE => self::TOP,
 		],
 		'wpforms-zapier/wpforms-zapier.php'                             => [],
 		'wpforms-zoho-crm/wpforms-zoho-crm.php'                         => [
 			self::LICENSE => self::TOP,
+		],
+		'wpforms-lindris/wpforms-lindris.php'                           => [
+			self::LICENSE => [],
 		],
 	];
 	// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned, WordPress.Arrays.MultipleStatementAlignment.LongIndexSpaceBeforeDoubleArrow

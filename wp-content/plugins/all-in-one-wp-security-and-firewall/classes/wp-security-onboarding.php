@@ -130,6 +130,23 @@ class AIOWPSecurity_Onboarding {
 	}
 
 	/**
+	 * Check if the plugin license is connected via the Updraft updater instance.
+	 *
+	 * @return bool True if the license is connected, false otherwise.
+	 */
+	private function is_license_connected() {
+		global $updraft_updater_instance;
+
+		if (!isset($updraft_updater_instance)) {
+			return true; // Don't show the license step if we fail to determine if the license is connected.
+		}
+
+		$option = $updraft_updater_instance->get_option($updraft_updater_instance->slug.'_updater_options');
+
+		return empty($option['email']) ? false : true;
+	}
+
+	/**
 	 * Filters onboarding steps.
 	 *
 	 * @global AIO_WP_Security_Simba_Two_Factor_Authentication_Plugin $simba_two_factor_authentication
@@ -141,49 +158,38 @@ class AIOWPSecurity_Onboarding {
 
 		$license_step = array();
 
-		if ($this->is_premium) {
-			global $updraft_updater_instance;
-
-			if (isset($updraft_updater_instance)) {
-				$reflection = new ReflectionClass($updraft_updater_instance);
-				$method = $reflection->getMethod('is_connected');
-				$method->setAccessible(true);
-				$is_connected = $method->invoke($updraft_updater_instance);
-
-				if (!$is_connected) {
-					$license_step[] = array(
-						'id'       => 'license',
-						'type'     => 'license',
-						'icon'     => 'license',
-						'title'    => __('Connect and activate your license', 'all-in-one-wp-security-and-firewall-premium'),
-						'title_conditional' => array(
-							'licenseActivated' => __('License activated', 'all-in-one-wp-security-and-firewall-premium'),
-							'isUpdating' => __('Activating your Premium license...', 'all-in-one-wp-security-and-firewall-premium')
-						),
-						'subtitle' => __('Please enter your TeamUpdraft credentials to start using Premium features.', 'all-in-one-wp-security-and-firewall-premium'),
-						'subtitle_conditional' => array(
-							'licenseActivated' => '',
-							'isUpdating' => ''
-						),
-						'fields'   => array(
-							array(
-								'id'    => 'registration_email',
-								'type'  => 'email',
-								'label' => __('Email', 'all-in-one-wp-security-and-firewall-premium'),
-							),
-							array(
-								'id'    => 'registration_password',
-								'type'  => 'password',
-								'label' => __('Password', 'all-in-one-wp-security-and-firewall-premium'),
-							),
-						),
-						'button'   => array(
-							'id'    => 'activate',
-							'label' => __('Activate', 'all-in-one-wp-security-and-firewall-premium'),
-						),
-					);
-				}
-			}
+		if ($this->is_premium && !$this->is_license_connected()) {
+			$license_step[] = array(
+				'id'       => 'license',
+				'type'     => 'license',
+				'icon'     => 'license',
+				'title'    => __('Connect and activate your license', 'all-in-one-wp-security-and-firewall-premium'),
+				'title_conditional' => array(
+					'licenseActivated' => __('License activated', 'all-in-one-wp-security-and-firewall-premium'),
+					'isUpdating' => __('Activating your Premium license...', 'all-in-one-wp-security-and-firewall-premium')
+				),
+				'subtitle' => __('Please enter your TeamUpdraft credentials to start using Premium features.', 'all-in-one-wp-security-and-firewall-premium'),
+				'subtitle_conditional' => array(
+					'licenseActivated' => '',
+					'isUpdating' => ''
+				),
+				'fields'   => array(
+					array(
+						'id'    => 'registration_email',
+						'type'  => 'email',
+						'label' => __('Email', 'all-in-one-wp-security-and-firewall-premium'),
+					),
+					array(
+						'id'    => 'registration_password',
+						'type'  => 'password',
+						'label' => __('Password', 'all-in-one-wp-security-and-firewall-premium'),
+					),
+				),
+				'button'   => array(
+					'id'    => 'activate',
+					'label' => __('Activate', 'all-in-one-wp-security-and-firewall-premium'),
+				),
+			);
 		}
 
 		$php_firewall_required_extensions = array('filter', 'tokenizer');

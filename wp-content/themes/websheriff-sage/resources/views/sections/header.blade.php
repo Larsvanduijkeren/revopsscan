@@ -1,5 +1,9 @@
 @php
 $logo = get_field('logo', 'option');
+$logoSecondary = function_exists('get_field') ? get_field('logo_secondary', 'option') : null;
+$logoSecondaryLink = function_exists('get_field') ? (get_field('logo_secondary_link', 'option') ?: []) : [];
+$logoSecondaryUrl = is_array($logoSecondaryLink) ? ($logoSecondaryLink['url'] ?? '') : '';
+$logoSecondaryTarget = is_array($logoSecondaryLink) ? ($logoSecondaryLink['target'] ?? '_self') : '_self';
 
 $headerBtnPrimary = function_exists('get_field') ? (get_field('header_button_primary', 'option') ?: []) : [];
 $headerBtnSecondary = function_exists('get_field') ? (get_field('header_button_secondary', 'option') ?: []) : [];
@@ -36,11 +40,34 @@ $headerMainClass = 'main-header' . ($headerHasBottomBar ? '' : ' main-header--no
 <header class="header">
     <div class="container">
         <div class="flex-wrapper">
-            <a href="{{ home_url('/') }}" class="logo" aria-label="Logo for {{get_bloginfo('name')}}">
-                @if(!empty($logo))
-                <img src="{{ $logo['sizes']['large'] ?? $logo['url'] ?? '' }}" alt="">
+            <div class="logos">
+                <a href="{{ home_url('/') }}" class="logo logo-primary" aria-label="Logo for {{ get_bloginfo('name') }}">
+                    @if(!empty($logo))
+                    <img src="{{ $logo['sizes']['large'] ?? $logo['url'] ?? '' }}" alt="">
+                    @endif
+                </a>
+
+                @if(!empty($logoSecondary))
+                    @if($logoSecondaryUrl)
+                    <a
+                        href="{{ esc_url($logoSecondaryUrl) }}"
+                        target="{{ esc_attr($logoSecondaryTarget) }}"
+                        rel="{{ $logoSecondaryTarget === '_blank' ? 'noopener noreferrer' : '' }}"
+                        class="logo logo-secondary"
+                        aria-label="{{ esc_attr($logoSecondary['alt'] ?? __('Secondary logo', 'sage')) }}">
+                        <img
+                            src="{{ esc_url($logoSecondary['sizes']['large'] ?? $logoSecondary['url'] ?? '') }}"
+                            alt="{{ esc_attr($logoSecondary['alt'] ?? '') }}">
+                    </a>
+                    @else
+                    <span class="logo logo-secondary" aria-hidden="true">
+                        <img
+                            src="{{ esc_url($logoSecondary['sizes']['large'] ?? $logoSecondary['url'] ?? '') }}"
+                            alt="{{ esc_attr($logoSecondary['alt'] ?? '') }}">
+                    </span>
+                    @endif
                 @endif
-            </a>
+            </div>
 
             <div class="{{ $headerMainClass }}">
                 <div class="top-bar">

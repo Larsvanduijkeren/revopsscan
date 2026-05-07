@@ -1097,6 +1097,8 @@ class AIOWPSecurity_Ajax_Data_Table {
 	 * @param bool $with_id - Whether to set the id attribute or not
 	 */
 	public function print_column_headers($with_id = true) {
+		global $wp_version;
+		
 		list($columns, $hidden, $sortable, $primary) = $this->get_column_info();
 
 		$host = isset($_SERVER['HTTP_HOST']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])) : '';
@@ -1152,8 +1154,20 @@ class AIOWPSecurity_Ajax_Data_Table {
 					$class[] = 'sortable';
 					$class[] = $desc_first ? 'asc' : 'desc';
 				}
-
-				$column_display_name = '<a href="' . esc_url(add_query_arg(compact('orderby', 'order'), $current_url)) . '"><span>' . $column_display_name . '</span><span class="sorting-indicator"></span></a>';
+				
+				$sorting_indicators_html = "<span class='sorting-indicator'></span>";
+				
+				if (version_compare($wp_version, '6.3', '>=')) {
+					$sorting_indicators_html = '<span class="sorting-indicators">'
+						.     '<span class="sorting-indicator asc" aria-hidden="true"></span>'
+						.     '<span class="sorting-indicator desc" aria-hidden="true"></span>'
+						. '</span>';
+				}
+				
+				$column_display_name = '<a href="' . esc_url(add_query_arg(compact('orderby', 'order'), $current_url)) . '">'
+					. '<span>' . $column_display_name . '</span>'
+					. $sorting_indicators_html
+					. '</a>';
 			}
 
 			$tag   = ('cb' === $column_key) ? 'td' : 'th';

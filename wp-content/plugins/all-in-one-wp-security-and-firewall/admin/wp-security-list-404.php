@@ -45,20 +45,20 @@ class AIOWPSecurity_List_404 extends AIOWPSecurity_List_Table {
 		$blacklist_tab = 'blacklist';
 		$is_blacklist = AIOWPSecurity_Utility::check_blacklist_ip($ip);
 		$actions = array();
-		$actions['delete'] = '<a class="aios-delete-404" data-id="' . esc_attr($item['id']) . '" data-message="' . esc_js(__('Are you sure you want to delete this item?', 'all-in-one-wp-security-and-firewall')) . '" href="#">' . __('Delete', 'all-in-one-wp-security-and-firewall') . '</a>';
+		$actions['delete'] = '<a class="aios-delete-404" data-id="' . esc_attr($item['id']) . '" data-message="' . esc_attr__('Are you sure you want to delete this item?', 'all-in-one-wp-security-and-firewall') . '" href="#">' . esc_html__('Delete', 'all-in-one-wp-security-and-firewall') . '</a>';
 		
 		if ($is_locked) {
 			// Build row actions for locked items
-			$actions['unblock'] = '<a class="aios-unblock-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_js(__('Are you sure you want to unblock this item?', 'all-in-one-wp-security-and-firewall')) . '" href="#">' . __('Unblock', 'all-in-one-wp-security-and-firewall') . '</a>';
+			$actions['unblock'] = '<a class="aios-unblock-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_attr__('Are you sure you want to unblock this item?', 'all-in-one-wp-security-and-firewall') . '" href="#">' . esc_html__('Unblock', 'all-in-one-wp-security-and-firewall') . '</a>';
 		} elseif ($is_blacklist) {
 			$unblock_url_nonce = wp_nonce_url(sprintf('admin.php?page=%s&tab=%s', AIOWPSEC_FIREWALL_MENU_SLUG, $blacklist_tab), "404_log_item_action", "aiowps_nonce");
 			$actions = array(
-				'unblock' => '<a href="'.$unblock_url_nonce.'" onclick="return confirm(\'' . esc_js(__('Are you sure you want to unblock this item?', 'all-in-one-wp-security-and-firewall')) . '\')">'.__('Unblock', 'all-in-one-wp-security-and-firewall').'</a>',
+				'unblock' => '<a href="'.$unblock_url_nonce.'" onclick="return confirm(\'' . esc_js(__('Are you sure you want to unblock this item?', 'all-in-one-wp-security-and-firewall')) . '\')">'.esc_html__('Unblock', 'all-in-one-wp-security-and-firewall').'</a>',
 			);
 		} else {
 			// Build row actions for other items
-			$actions['temp_block'] = '<a class="aios-temp-block-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_js(__('Are you sure you want to block this IP address?', 'all-in-one-wp-security-and-firewall')) . '" data-username="' . esc_attr($item['username']) . '" href="#">' . __('Temporarily block', 'all-in-one-wp-security-and-firewall') . '</a>';
-			$actions['blacklist_ip'] = '<a class="aios-blacklist-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_js(__('Are you sure you want to permanently block this IP address?', 'all-in-one-wp-security-and-firewall')) . '" href="#">' . __('Blacklist IP', 'all-in-one-wp-security-and-firewall') . '</a>';
+			$actions['temp_block'] = '<a class="aios-temp-block-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_attr__('Are you sure you want to block this IP address?', 'all-in-one-wp-security-and-firewall') . '" data-username="' . esc_attr($item['username']) . '" href="#">' . esc_html__('Temporarily block', 'all-in-one-wp-security-and-firewall') . '</a>';
+			$actions['blacklist_ip'] = '<a class="aios-blacklist-404" data-ip="' . esc_attr($ip) . '" data-message="' . esc_attr__('Are you sure you want to permanently block this IP address?', 'all-in-one-wp-security-and-firewall') . '" href="#">' . esc_html__('Blacklist IP', 'all-in-one-wp-security-and-firewall') . '</a>';
 		}
 
 		//Return the user_login contents
@@ -263,6 +263,8 @@ class AIOWPSecurity_List_404 extends AIOWPSecurity_List_Table {
 			$aio_wp_security->configs->save_config();
 
 			$aiowps_firewall_config->set_value('aiowps_blacklist_ips', $validated_ip_list_array);
+			$aiowps_firewall_config->set_value('aiowps_enable_blacklisting', '1');
+
 			AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP addresses have been added to the blacklist and will be permanently blocked.', 'all-in-one-wp-security-and-firewall'));
 		}
 	}

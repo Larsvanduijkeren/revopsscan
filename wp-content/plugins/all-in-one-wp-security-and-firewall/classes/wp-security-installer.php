@@ -47,6 +47,12 @@ class AIOWPSecurity_Installer {
 			AIOWPSecurity_Configure_Settings::update_aiowpsec_db_version();
 		}
 
+		if (!class_exists('Updraft_Tasks_Activation')) {
+			require_once(AIO_WP_SECURITY_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-tasks-activation.php');
+		}
+		Updraft_Tasks_Activation::init(AIO_WP_SECURITY_PLUGIN_SLUG);
+		Updraft_Tasks_Activation::reinstall_if_needed();
+
 		AIOWPSecurity_Installer::create_db_backup_dir(); // Create a backup dir in the WP uploads directory.
 	}
 

@@ -12,11 +12,11 @@
 
 // Redirect to https login if forced to use SSL
 if (force_ssl_admin() && ! is_ssl()) {
-	if (0 === strpos(isset($_SERVER['REQUEST_URI']) ? sanitize_url(wp_unslash($_SERVER['REQUEST_URI'])) : '', 'http')) {
-		wp_safe_redirect(set_url_scheme(sanitize_url(wp_unslash($_SERVER['REQUEST_URI'], 'https'))));
+	if (0 === strpos(isset($_SERVER['REQUEST_URI']) ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])) : '', 'http')) {
+		wp_safe_redirect(set_url_scheme(esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'], 'https'))));
 		exit();
 	} else {
-		wp_safe_redirect('https://' . isset($_SERVER['HTTP_HOST']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])) : '' . sanitize_url(wp_unslash($_SERVER['REQUEST_URI'])));
+		wp_safe_redirect('https://' . isset($_SERVER['HTTP_HOST']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])) : '' . esc_url_raw(wp_unslash($_SERVER['REQUEST_URI'])));
 		exit();
 	}
 }

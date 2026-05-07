@@ -1,6 +1,108 @@
 # Changelog
 All notable changes to this project will be documented in this file and formatted via [this recommendation](https://keepachangelog.com/).
 
+## [1.10.0.4] - 2026-04-10
+### Fixed
+- Stripe payment with Link and a 3D Secure card did not trigger the authentication modal, leaving the payment incomplete on Stripe.
+
+## [1.10.0.3] - 2026-04-08
+### Fixed
+- PayPal Connection URL was cached and contains the old site URL after the site migration.
+
+## [1.10.0.2] - 2026-03-26
+### Fixed
+- Dropdown field with a choice label containing quote characters was causing a JavaScript error in the form builder, preventing fields from being added correctly.
+- Compatibility with Divi Builder.
+
+## [1.10.0.1] - 2026-03-19
+### Fixed
+- Fastlane payment was declined when the mapped Billing Address did not include Address Line 2.
+
+## [1.10.0] - 2026-03-17
+### Added
+- Users can connect their PayPal Commerce accounts and receive payments via their payment forms.
+- Users can now navigate to different pages of a multi-page form by clicking the steps/icons in the progress bar (Page Break field).
+- Ability to configure per-form entry auto-purge after a specific number of days.
+- Warning modal now appears when enabling Conditional Logic for a field without completing the rule setup.
+
+### Changed
+- Refactored the Form Builder JavaScript into modular architecture for improved maintainability and performance.
+- Refactored and optimized drag fields JavaScript for more consistent field reordering and positioning.
+- The Lite Connect modals and settings description now include a notice that entry backups expire after 1 year.
+
+### Fixed
+- The "Preview" button on email templates didn't wrap text on the Settings > Email admin page.
+- Compatibility with Sugar Calendar on the Tools > Export page.
+- A conflict with Monolog was causing fatal errors on some sites.
+- Choices.js was non-functional after undo in the provider connection settings.
+- The Square field width inside Layout field was incorrect.
+- PHP warning for templates with an Internal Information Field.
+- Entries export was failing with a fatal error for forms with choice fields when the form ID was missing.
+- Reply-To email header was silently dropped when using the smart tag widget due to non-breaking space characters.
+- Console errors could occur when the Icon Choices library was missing or corrupted.
+- Missing Dependencies errors during new form creation.
+- Coupon field was incorrectly included in the keyboard copy/paste toast notification and the Duplicate Fields confirmation count in the form builder.
+- Delete icon overlapped right-aligned page navigation buttons on the Page Break field preview.
+- Confirmation modal was shown when disabling Conditional Logic even if no rules had been configured.
+- The icon library error pop-up was incorrectly shown after a successful icon library installation when interacting with the form builder before the page reload.
+
+## [1.9.9.4] - 2026-03-03
+### Fixed
+- Gutenberg education notice incorrectly showing in Classic Editor when Classic Editor plugin is active.
+- GDPR agreement field was truncated in the Form Builder.
+
+## [1.9.9.3] - 2026-02-24
+### Added
+- Support for upcoming addon releases.
+
+### Fixed
+- Undo/Redo in marketing addons' settings didn't restore the input value.
+- AI Form Generator panel was not opening automatically after installing or activating the addons.
+- The Cloudflare Turnstile captcha rendered twice if a CF7 form was also added on the same page.
+- Quiz help link in the Fields tab was incorrect.
+
+## [1.9.9.2] - 2026-01-29
+### Fixed
+- "Settings" links are now available for several addons to provide quicker access to their configuration pages.
+- Some Entry Automation settings were missing after Undo/Redo actions.
+
+## [1.9.9.1] - 2026-01-27
+### Fixed
+- There was an issue with exporting entries in some cases.
+
+## [1.9.9] - 2026-01-27
+### Added
+- WordPress Abilities API integration for AI and automation-ready access to WPForms.
+- Ability to generate Quiz-enabled forms using the AI Form generator.
+- Support for multiple fields selection: you can now drag, duplicate, or delete multiple fields at once.
+- Keyboard shortcuts for field duplication (D), field removal (Delete), copy (Ctrl/Cmd + C), and paste (Ctrl/Cmd + V).
+- Undo/redo command manager with modular integrations for Form Builder inputs.
+- Divi 5 compatibility and a new block for the Divi page builder.
+- Entries can now be filtered using new `is empty` and `is not empty` filters.
+- Users can now see their uploaded files via the File Upload field in Entry Preview.
+- New `wpforms_process_is_block_submission_by_spam_filtering_enabled` filter to control whether spam submissions should be blocked or only logged.
+- New `{entry_type}` smart tag that returns the entry type (Completed, Abandoned, Partial or Spam).
+
+### Changed
+- Put the plugin on a diet – performed a cleanup, reducing plugin size.
+- Improved compatibility with the MotoPress Content Editor plugin.
+- Updated Chart.js library to v4.5.1.
+- Hide title and indicator color settings of the Page Break field when the Progress Indicator is set to None.
+
+### Fixed
+- Selected form type was not retained when refreshing the Forms Overview page.
+- Multipage forms incorrectly skipped pages containing Conditional Layout fields with hidden nested fields.
+- Deprecation error with PHP 8.4 that occurred during WPForms installation.
+- Form creation via Form AI for users without manage_options capability.
+- Deprecation warning being logged in the browser console on the Dashboard admin page.
+- Entry search returning no results for fields using dynamic choices.
+- Fixed PHP 8.4 deprecated error in Stripe integration related to nullable parameter type declaration.
+- Horizontal scroll appearing on RTL websites when using the Modern File Upload field.
+- Fixed compatibility with the Disable Admin Notices Individually plugin.
+- From Email/Name fields appeared blank for new notifications when WP Mail SMTP force settings were enabled.
+- Fixed the collapsible block height in the builder to be consistent with other fields.
+- Disabled field option toggle remained interactive.
+
 ## [1.9.8.7] - 2025-12-11
 ### Fixed
 - A fatal error occurred on the admin dashboard with some third-party plugins.
@@ -702,7 +804,7 @@ All notable changes to this project will be documented in this file and formatte
 - Recommended, New, and Featured addons are now displayed first on the addons page.
 
 ### Changed
-- The Campaign Monitor, ConstantContact, GetResponse and ConvertKit logos were updated.
+- The Campaign Monitor, ConstantContact, GetResponse, and ConvertKit logos were updated.
 - Users can now see the category and subcategory of the selected template on the Setup panel.
 - If Akismet is installed and configured for the form, marking entries as spam or not spam helps Akismet learn.
 - Improved the behavior of Tools > Logs page and settings controls.
@@ -810,7 +912,7 @@ All notable changes to this project will be documented in this file and formatte
 ### Fixed
 - Automatic and unintentional popup of the "What's New" modal on the WordPress admin dashboard.
 - Various visual issues with the "What's New" modal.
-- Various RTL problems in the admin dashboard, form builder and a form preview page.
+- Various RTL problems in the admin dashboard, form builder, and a form preview page.
 - Various responsive issues on admin pages.
 - The Paragraph field was allowed horizontal resizing.
 - Make sure we output valid robots.txt file rules if the file is empty.
@@ -1036,7 +1138,7 @@ All notable changes to this project will be documented in this file and formatte
 - Trashed forms not removed during the plugin deletion process.
 - An empty value from the Dropdown field is saved if the choice with empty label is selected.
 - Multiple notices reminding to enter your license key could be displayed at the same time on Addons page.
-- Some styles were incorrect for the Form Selector widget in Block Editor, Elementor and Divi.
+- Some styles were incorrect for the Form Selector widget in Block Editor, Elementor, and Divi.
 - Confirmation Page dropdown is not completely visible in some cases on smaller screens.
 - PHP warning about undefined country filter key.
 - Header Image Size dropdown appeared on the Email Settings page even though there is no image set for the Email Header.
@@ -1447,7 +1549,7 @@ All notable changes to this project will be documented in this file and formatte
 - When duplicating an inactive field, the settings of the active field are now removed properly.
 - Malformed HTML in the Entry Preview Notice field could brake the Form Builder markup.
 - It was impossible to remove an expired license key after upgrading to WPForms Pro if it was initially set in WPForms Lite.
-- The expired, disabled and invalid license notices were shown twice after entering the key in the WPForms Lite, then installing and activating WPForms Pro.
+- The expired, disabled, and invalid license notices were shown twice after entering the key in the WPForms Lite, then installing and activating WPForms Pro.
 - The Page Break field was inserted in the incorrect position if the form contained a notice about a certain field being not available under the current license.
 - Some cache files were unnecessarily re-downloaded on the front end.
 - The Single Item field with a User Defined type could be submitted with a negative amount.
@@ -1900,7 +2002,7 @@ All notable changes to this project will be documented in this file and formatte
 - Improved format and limits validation of modern File Upload field.
 - Improved display of empty and hidden field labels in Form Builder preview.
 - Field helper notification in the Form Builder now can be dismissed.
-- Improved and standardized look of classic and modern Dropdown field across Form Builder, admin area and frontend.
+- Improved and standardized look of classic and modern Dropdown field across Form Builder, admin area, and frontend.
 - Display "Save and Resume" link in Page Break field preview in Form Builder if Save and Resume is turned on.
 
 ### Fixed
@@ -1970,7 +2072,7 @@ All notable changes to this project will be documented in this file and formatte
 - Insert/edit link button not working in the Confirmation Message editor.
 - Prevent editor styles from loading on various settings pages.
 - Missing Conditional Logic class in the Lite version causing errors when using custom integration that extends the `WPForms_Provider` class.
-- Console error in Chrome when re-ordering choices in the Dropdown, Checkboxes and Multiple Choice field settings.
+- Console error in Chrome when re-ordering choices in the Dropdown, Checkboxes, and Multiple Choice field settings.
 - Unrelated admin notices are no longer displayed on the WPForms admin pages.
 - Modern Dropdown and Custom Captcha fields not initialized properly in the Divi Builder.
 - Dropdown preview in the Form Builder not updated if the first option's value is empty.
@@ -2054,7 +2156,7 @@ All notable changes to this project will be documented in this file and formatte
 - In rare cases, WPForms functions calls are not handled correctly inside the third-party frontend AJAX calls.
 - Tooltipster JS error on Edit Entry page.
 - Incorrect `wpforms_smart_tag_process` filter deprecation notice.
-- Compatibility with the Elementor 3.1.x, 3.2.x and 3.3.x.
+- Compatibility with the Elementor 3.1.x, 3.2.x, and 3.3.x.
 - Broken XLSX of exported entries in rare cases when server temporary directory is not writable.
 - Cleanup database from obsolete data after preparing an entries export file for download.
 - Properly handle errors reporting when entries exporting failed for some reason.
@@ -2988,7 +3090,7 @@ All notable changes to this project will be documented in this file and formatte
 
 ## [1.4.5] - 2018-03-15
 ### Added
-- Image choices feature with Checkbox, Multiple Choice and Multiple Payments fields; Images can now be uploaded and displayed with your choices!
+- Image choices feature with Checkbox, Multiple Choice, and Multiple Payments fields; Images can now be uploaded and displayed with your choices!
 - Custom input masks for Single Line Text fields (Advanced Options).
 - No-Conflict Mode for Google reCAPTCHA (Settings > reCAPTCHA). Removes other reCAPTCHA occurrences, to prevent conflicts.
 - SSL Connection Test (Tools > System Info). Quickly verify that your web host correct supports SSL connections.
@@ -3065,7 +3167,7 @@ All notable changes to this project will be documented in this file and formatte
 
 ### Fixed
 - Site cache being flushed when it shouldn't have been, affecting performance in some scenarios.
-- Country, state, months and days not properly exposed to i18n.
+- Country, state, months, and days not properly exposed to i18n.
 - CSV export dates not properly using i18n.
 - Incorrect usage of `esc_sql` with `wpdb->prepare`.
 - Styling preventing the entries column picker from displaying correctly.

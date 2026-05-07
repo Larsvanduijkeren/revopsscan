@@ -474,88 +474,90 @@ trait AIOWPSecurity_Brute_Force_Commands_Trait {
 
 		switch ($action) {
 			case 'delete':
-			if (!isset($data['id'])) {
+				if (!isset($data['id'])) {
 					return $this->handle_response(false, __('Invalid 404 event log ID provided.', 'all-in-one-wp-security-and-firewall'));
-			}
-			$events_table = AIOWPSEC_TBL_EVENTS;
-			$id = absint($data['id']);
-			//Delete single record
-			$delete_command = "DELETE FROM " . $events_table . " WHERE id = '" . absint($id) . "'";
-			$result = $wpdb->query($delete_command);
-			if (false === $result) {
+				}
+				$events_table = AIOWPSEC_TBL_EVENTS;
+				$id = absint($data['id']);
+				//Delete single record
+				$delete_command = "DELETE FROM " . $events_table . " WHERE id = '" . absint($id) . "'";
+				$result = $wpdb->query($delete_command);
+				if (false === $result) {
 					// Error on single delete
 					$aio_wp_security->debug_logger->log_debug('Database error occurred when deleting rows from Events table. Database error: '.$wpdb->last_error, 4);
 					return $this->handle_response(false, __('The selected record(s) have failed to delete.', 'all-in-one-wp-security-and-firewall'));
-			} else {
-								$message = __('The selected record(s) has been deleted successfully.', 'all-in-one-wp-security-and-firewall');
-			}
+				} else {
+					$message = __('The selected record(s) has been deleted successfully.', 'all-in-one-wp-security-and-firewall');
+				}
 				break;
 			case 'temp_block':
-			if (!isset($data['ip'])) {
+				if (!isset($data['ip'])) {
 					return $this->handle_response(false, __('Invalid IP provided.', 'all-in-one-wp-security-and-firewall'));
-			}
-			$ip = sanitize_text_field($data['ip']);
-			$username = isset($data['username']) ? sanitize_user($data['username']) : '';
+				}
+				$ip = sanitize_text_field($data['ip']);
+				$username = isset($data['username']) ? sanitize_user($data['username']) : '';
 
-			if (AIOWPSecurity_Utility_IP::get_user_ip_address() == $ip) {
+				if (AIOWPSecurity_Utility_IP::get_user_ip_address() == $ip) {
 					return $this->handle_response(false, __('You cannot block your own IP address:', 'all-in-one-wp-security-and-firewall') . ' ' . $ip);
-			}
-			//Block single record
-			if (filter_var($ip, FILTER_VALIDATE_IP)) {
+				}
+				//Block single record
+				if (filter_var($ip, FILTER_VALIDATE_IP)) {
 					AIOWPSecurity_Utility::lock_IP($ip, '404', $username);
 					$message = __('The selected IP address is now temporarily blocked.', 'all-in-one-wp-security-and-firewall');
-			} else {
-								$message = __('The selected entry is not a valid IP address.', 'all-in-one-wp-security-and-firewall');
-								return $this->handle_response(false, $message);
-			}
+				} else {
+					$message = __('The selected entry is not a valid IP address.', 'all-in-one-wp-security-and-firewall');
+					return $this->handle_response(false, $message);
+				}
 				break;
 			case 'blacklist':
-			if (!isset($data['ip'])) {
+				if (!isset($data['ip'])) {
 					return $this->handle_response(false, __('Invalid IP provided.', 'all-in-one-wp-security-and-firewall'));
-			}
+				}
 
-			$bl_ip_addresses = $aio_wp_security->configs->get_value('aiowps_banned_ip_addresses'); //get the currently saved blacklisted IPs
-			$ip_list_array = AIOWPSecurity_Utility_IP::create_ip_list_array_from_string_with_newline($bl_ip_addresses);
-			$ip = sanitize_text_field($data['ip']);
-			$ip_list_array[] = $ip;
-			$validated_ip_list_array = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'blacklist');
+				$bl_ip_addresses = $aio_wp_security->configs->get_value('aiowps_banned_ip_addresses'); //get the currently saved blacklisted IPs
+				$ip_list_array = AIOWPSecurity_Utility_IP::create_ip_list_array_from_string_with_newline($bl_ip_addresses);
+				$ip = sanitize_text_field($data['ip']);
+				$ip_list_array[] = $ip;
+				$validated_ip_list_array = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'blacklist');
 
-			if (is_wp_error($validated_ip_list_array)) {
+				if (is_wp_error($validated_ip_list_array)) {
 					$response = nl2br($validated_ip_list_array->get_error_message());
 					return $this->handle_response(false, $response);
-			} else {
-								$banned_ip_data = implode("\n", $validated_ip_list_array);
-								$aio_wp_security->configs->set_value('aiowps_enable_blacklisting', '1'); // Force blacklist feature to be enabled.
-								$aio_wp_security->configs->set_value('aiowps_banned_ip_addresses', $banned_ip_data);
-								$aio_wp_security->configs->save_config();
+				} else {
+					$banned_ip_data = implode("\n", $validated_ip_list_array);
+					$aio_wp_security->configs->set_value('aiowps_enable_blacklisting', '1'); // Force blacklist feature to be enabled.
+					$aio_wp_security->configs->set_value('aiowps_banned_ip_addresses', $banned_ip_data);
+					$aio_wp_security->configs->save_config();
 
-								$aiowps_firewall_config->set_value('aiowps_blacklist_ips', $validated_ip_list_array);
-								$message = __('The selected IP addresses have been added to the blacklist and will be permanently blocked.', 'all-in-one-wp-security-and-firewall');
-			}
+					$aiowps_firewall_config->set_value('aiowps_blacklist_ips', $validated_ip_list_array);
+					$aiowps_firewall_config->set_value('aiowps_enable_blacklisting', '1');
+
+					$message = __('The selected IP addresses have been added to the blacklist and will be permanently blocked.', 'all-in-one-wp-security-and-firewall');
+				}
 				break;
 			case 'unblock':
-			if (!isset($data['ip'])) {
+				if (!isset($data['ip'])) {
 					return $this->handle_response(false, __('Invalid log event ID provided.', 'all-in-one-wp-security-and-firewall'));
-			}
+				}
 
-			$ip_range = sanitize_text_field($data['ip']);
-			$lockout_table = AIOWPSEC_TBL_LOGIN_LOCKOUT;
+				$ip_range = sanitize_text_field($data['ip']);
+				$lockout_table = AIOWPSEC_TBL_LOGIN_LOCKOUT;
 
-			// get the latest data with that ip in the table that's locked and reason is 404
-			$query = $wpdb->prepare("SELECT id FROM {$lockout_table} WHERE `released` > UNIX_TIMESTAMP() AND `lock_reason` = %s and failed_login_ip = %s ORDER BY id ASC LIMIT 1", '404', $ip_range);
-			$id = $wpdb->get_var($query);
+				// get the latest data with that ip in the table that's locked and reason is 404
+				$query = $wpdb->prepare("SELECT id FROM {$lockout_table} WHERE `released` > UNIX_TIMESTAMP() AND `lock_reason` = %s and failed_login_ip = %s ORDER BY id ASC LIMIT 1", '404', $ip_range);
+				$id = $wpdb->get_var($query);
 
-			if (null === $id) {
+				if (null === $id) {
 					return $this->handle_response(false, __('Invalid log event ID provided.', 'all-in-one-wp-security-and-firewall'));
-			}
+				}
 
-			$result = $wpdb->query($wpdb->prepare("UPDATE $lockout_table SET `released` = UNIX_TIMESTAMP() WHERE `id` = %d", absint($id)));
+				$result = $wpdb->query($wpdb->prepare("UPDATE $lockout_table SET `released` = UNIX_TIMESTAMP() WHERE `id` = %d", absint($id)));
 
-			if (null != $result) {
+				if (null != $result) {
 					$message = __('Access from the selected IP address has been unblocked.', 'all-in-one-wp-security-and-firewall');
-			} else {
-								return $this->handle_response(false, __('The selected IP entry could not be unlocked', 'all-in-one-wp-security-and-firewall'));
-			}
+				} else {
+					return $this->handle_response(false, __('The selected IP entry could not be unlocked', 'all-in-one-wp-security-and-firewall'));
+				}
 				break;
 		}
 

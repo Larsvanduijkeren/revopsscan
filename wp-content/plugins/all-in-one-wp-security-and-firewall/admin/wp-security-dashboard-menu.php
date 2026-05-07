@@ -208,6 +208,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu {
 		wp_add_dashboard_widget('know_developers', __('Get to know the developers', 'all-in-one-wp-security-and-firewall'), array($this, 'widget_know_developers'));
 		wp_add_dashboard_widget('critical_feature_status', __('Critical feature status', 'all-in-one-wp-security-and-firewall'), array($this, 'widget_critical_feature_status'));
 		wp_add_dashboard_widget('last_5_logins', __('Last 5 login summary', 'all-in-one-wp-security-and-firewall'), array($this, 'widget_last_5_logins'));
+		wp_add_dashboard_widget('top_5_failed_logins', __('Failed login summary', 'all-in-one-wp-security-and-firewall'), array($this, 'widget_top_5_failed_logins'));
 		wp_add_dashboard_widget('maintenance_mode_status', __('Maintenance mode status', 'all-in-one-wp-security-and-firewall'), array($this, 'widget_maintenance_mode_status'));
 		if ('1' == $aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')
 			|| '1' == $aio_wp_security->configs->get_value('aiowps_enable_rename_login_page')
@@ -287,51 +288,24 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu {
 		<?php
 	}
 
+	/**
+	 * Display the security points breakdown widget in the WordPress dashboard.
+	 *
+	 * This method retrieves the security points breakdown for each feature category and includes
+	 * the corresponding template to render the widget on the WordPress dashboard.
+	 *
+	 * @return void
+	 */
 	public function widget_security_points_breakdown() {
-		global $aiowps_feature_mgr;
-		$feature_mgr = $aiowps_feature_mgr;
-		$feature_items = $feature_mgr->feature_items;
-		$pt_src_chart_data = "";
-		$pt_src_chart_data .= "['Feature Name', 'Points'],";
-		foreach ($feature_items as $item) {
-			if ($item->is_active()) {
-				$pt_src_chart_data .= "['" . esc_html($item->feature_name) . "', " . esc_html($item->item_points) . "],";
-			}
-		}
+		global $aiowps_feature_mgr, $aio_wp_security;
+		$categories = $aiowps_feature_mgr->get_feature_category_points_breakdown();
 
-		?>
-		<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- PCP error. Direct enqueue necessary. ?>
-		<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-		<script type="text/javascript">
-			google.load("visualization", "1", {packages: ["corechart"]});
-			google.setOnLoadCallback(drawChart);
-			function drawChart() {
-				var data = google.visualization.arrayToDataTable([
-					<?php echo $pt_src_chart_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JS array data. Variables escaped earlier. ?>
-				]);
-
-				var options = {
-					// height: '250',
-					// width: '450',
-					backgroundColor: 'F6F6F6',
-					pieHole: 0.4,
-					chartArea: {
-						width: '95%',
-						height: '95%',
-					}
-				};
-
-				var chart = new google.visualization.PieChart(document.getElementById('points_source_breakdown_chart_div'));
-				chart.draw(data, options);
-			}
-		</script>
-		<div id='points_source_breakdown_chart_div'></div>
-		<?php
+		$aio_wp_security->include_template('wp-admin/dashboard/partials/widget-points-breakdown.php', false, array('categories' => $categories));
 	}
 
 	public function widget_spread_the_word() {
 		?>
-		<p><?php echo esc_html__('We are working hard to make your WordPress site more secure.', 'all-in-one-wp-security-and-firewall') . ' ' . esc_html__('Please support us, here is how:', 'all-in-one-wp-security-and-firewall');?></p>
+		<p><?php esc_html_e('We are working hard to make your WordPress site more secure.', 'all-in-one-wp-security-and-firewall') . ' ' . esc_html_e('Please support us, here is how:', 'all-in-one-wp-security-and-firewall');?></p>
 		<p><a href="https://x.com/TeamUpdraftWP" target="_blank"><?php esc_html_e('Follow us on', 'all-in-one-wp-security-and-firewall');?> X</a>
 		</p>
 		<p>
@@ -385,6 +359,127 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu {
 		echo "</div>";
 	}
 
+	/**
+	 * Gets last x days failed login details
+	 *
+	 * @global $wpdb
+	 * @param int $days Number of days
+	 *
+	 * @return array
+	 */
+	public static function get_failed_login_data_lastx_days($days) {
+		global $wpdb;
+		$days_before_time = strtotime('-'.$days.' days', time());
+		$audit_log_table = AIOWPSEC_TBL_AUDIT_LOG;
+		if (is_super_admin()) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_data_lastx_days = $wpdb->get_results($wpdb->prepare("SELECT id,created FROM $audit_log_table WHERE event_type = %s and created > %d", array('failed_login', $days_before_time)), ARRAY_A);
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_data_lastx_days = $wpdb->get_results($wpdb->prepare("SELECT id,created FROM $audit_log_table WHERE event_type = %s and created > %d and site_id = %d", array('failed_login', $days_before_time, get_current_blog_id())), ARRAY_A);
+		}
+		return $failed_login_data_lastx_days;
+	}
+	
+	/**
+	 * Gets top 5 failed login details by IP
+	 *
+	 * @global $wpdb
+	 *
+	 * @return array
+	 */
+	public static function get_failed_login_byip_data() {
+		global $wpdb;
+		$audit_log_table = AIOWPSEC_TBL_AUDIT_LOG;
+		if (is_super_admin()) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_byip_data = $wpdb->get_results($wpdb->prepare("SELECT ip, count(id) as total FROM $audit_log_table WHERE event_type = %s GROUP BY ip ORDER BY total DESC LIMIT 5", array('failed_login')), ARRAY_A);
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_byip_data = $wpdb->get_results($wpdb->prepare("SELECT ip, count(id) as total FROM $audit_log_table WHERE event_type = %s and site_id = %d GROUP BY ip ORDER BY total DESC LIMIT 5", array('failed_login', get_current_blog_id())), ARRAY_A);
+		}
+		return $failed_login_byip_data;
+	}
+	
+	/**
+	 * Gets top 5 failed login details by username
+	 *
+	 * @global $wpdb
+	 *
+	 * @return array
+	 */
+	public static function get_failed_login_summary_data() {
+		global $wpdb;
+		$audit_log_table = AIOWPSEC_TBL_AUDIT_LOG;
+		if (is_super_admin()) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_summary_data = $wpdb->get_results($wpdb->prepare("SELECT username, count(id) as total FROM $audit_log_table WHERE event_type = %s GROUP BY username ORDER BY total DESC LIMIT 5", array('failed_login')), ARRAY_A);
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $audit_log_table is a plugin-defined constant
+			$failed_login_summary_data = $wpdb->get_results($wpdb->prepare("SELECT username, count(id) as total FROM $audit_log_table WHERE event_type = %s and site_id = %d GROUP BY username ORDER BY total DESC LIMIT 5", array('failed_login', get_current_blog_id())), ARRAY_A);
+		}
+		return $failed_login_summary_data;
+	}
+	
+	/**
+	 * This outputs the Top failed logins dashboard widget
+	 *
+	 * @return void
+	 */
+	public function widget_top_5_failed_logins() {
+		//Get the last 7 days failed login records
+		$last_days = 7;
+		$failed_login_data_lastx_days = self::get_failed_login_data_lastx_days($last_days);
+		if (!empty($failed_login_data_lastx_days)) {
+			$chart_data = array();
+			$chart_data['columns'] = array(
+				__('Date', 'all-in-one-wp-security-and-firewall'),
+				__('Failed logins', 'all-in-one-wp-security-and-firewall'),
+			);
+			$chart_data['data'] = $failed_login_data_lastx_days;
+			$chart_data['last_days'] = $last_days;
+			$chart_data['id'] = 'failed_logins_last_'.$last_days.'days';
+			$this->dashboard_widget_chart($chart_data, 'bar');
+		}
+		
+		$failed_login_byip_data = self::get_failed_login_byip_data();
+		if (!empty($failed_login_byip_data)) {
+			$failed_login_byip_summary_table_data = array();
+			$failed_login_byip_summary_table_data['title'] = __('Top failed logins by IP', 'all-in-one-wp-security-and-firewall');
+			$failed_login_byip_summary_table_data['columns'] = array(
+				__('IP', 'all-in-one-wp-security-and-firewall'),
+				__('Total', 'all-in-one-wp-security-and-firewall'),
+			);
+			foreach ($failed_login_byip_data as $entry) {
+				$failed_login_byip_summary_table_data['data'][] = array($entry['ip'], $entry['total']);
+			}
+			// Filter for aios premium to show the country code.
+			$failed_login_byip_summary_table_data = apply_filters('aios_failed_login_byip_summary', $failed_login_byip_summary_table_data, $failed_login_byip_data);
+			$this->dashboard_widget($failed_login_byip_summary_table_data);
+		}
+		
+		$failed_login_summary_data = self::get_failed_login_summary_data();
+		if (empty($failed_login_summary_data)) {
+			echo '<p>' . esc_html__('There were no failed logins in the last 7 days.', 'all-in-one-wp-security-and-firewall') . '</p>';
+		} else {
+			$failed_login_summary_table_data = array();
+			$failed_login_summary_table_data['title'] = __('Top failed logins by username:', 'all-in-one-wp-security-and-firewall');
+			$failed_login_summary_table_data['columns'] = array(
+				__('Username', 'all-in-one-wp-security-and-firewall'),
+				__('Total', 'all-in-one-wp-security-and-firewall'),
+			);
+			foreach ($failed_login_summary_data as $entry) {
+				$failed_login_summary_table_data['data'][] = array($entry['username'], $entry['total']);
+			}
+			$failed_login_summary_table_data = apply_filters('aios_failed_login_byusername_summary', $failed_login_summary_table_data, $failed_login_summary_data);
+			$this->dashboard_widget($failed_login_summary_table_data);
+			
+			// View all failed login logs
+			echo '<p><a class="button" href="' . esc_url('admin.php?page=' . AIOWPSEC_MAIN_MENU_SLUG . '&tab=audit-logs&event-filter=failed_login') . '">' . esc_html__('View all', 'all-in-one-wp-security-and-firewall') . '</a></p>';
+		}
+		echo '<div class="aio_clear_float"></div>';
+	}
+	
 	/**
 	 * This outputs the latest logins dashboard widget
 	 *

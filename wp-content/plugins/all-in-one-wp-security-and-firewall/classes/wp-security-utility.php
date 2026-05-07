@@ -51,7 +51,7 @@ class AIOWPSecurity_Utility {
 
 		if (defined('DOING_AJAX') && DOING_AJAX) {
 			// Return the referer URL instead of the AJAX URL
-			return isset($_SERVER['HTTP_REFERER']) ? sanitize_url(wp_unslash($_SERVER['HTTP_REFERER'])) : '';
+			return isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '';
 		}
 
 		$pageURL = 'http';
@@ -469,6 +469,11 @@ class AIOWPSecurity_Utility {
 	 */
 	public static function check_blacklist_ip($ip) {
 		global $aio_wp_security;
+
+		if ('' === $aio_wp_security->configs->get_value('aiowps_enable_blacklisting')) {
+			return false;
+		}
+
 		$blacklisted_ips = $aio_wp_security->configs->get_value('aiowps_banned_ip_addresses');
 		$blacklisted_ips_array = explode("\n", $blacklisted_ips);
 		if (in_array($ip, $blacklisted_ips_array)) {
@@ -1291,10 +1296,14 @@ class AIOWPSecurity_Utility {
 	 * @return array|WP_Error
 	 */
 	public static function get_googlebot_ip_ranges() {
-		$response = wp_safe_remote_get('https://developers.google.com/static/search/apis/ipranges/googlebot.json');
+		$response = wp_safe_remote_get('https://developers.google.com/static/crawling/ipranges/common-crawlers.json');
 
 		$body = wp_remote_retrieve_body($response);
 		$json_array = json_decode($body, true);
+
+		if (!isset($json_array['prefixes'])) {
+			return new WP_Error('invalid_json', __('The Googlebot IP ranges could not be retrieved.', 'all-in-one-wp-security-and-firewall') . ' ' . __('Please try again later or contact support if the issue persists.', 'all-in-one-wp-security-and-firewall'));
+		}
 
 		$ip_list_array = array();
 
@@ -1305,6 +1314,30 @@ class AIOWPSecurity_Utility {
 		return AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'whitelist');
 	}
 
+	/**
+	 * Updates the Bingbot IP ranges config.
+	 *
+	 * @return array|WP_Error
+	 */
+	public static function get_bingbot_ip_ranges() {
+		$response = wp_safe_remote_get('https://www.bing.com/toolbox/bingbot.json');
+
+		$body = wp_remote_retrieve_body($response);
+		$json_array = json_decode($body, true);
+
+		if (!isset($json_array['prefixes'])) {
+			return new WP_Error('invalid_json', __('The Bingbot IP ranges could not be retrieved.', 'all-in-one-wp-security-and-firewall') . ' ' . __('Please try again later or contact support if the issue persists.', 'all-in-one-wp-security-and-firewall'));
+		}
+
+		$ip_list_array = array();
+
+		foreach ($json_array['prefixes'] as $prefix) {
+			$ip_list_array[] = array_key_exists('ipv4Prefix', $prefix) ? $prefix['ipv4Prefix'] : $prefix['ipv6Prefix'];
+		}
+
+		return AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'whitelist');
+	}
+	
 	/**
 	 * This function creates and outputs the csv file for download
 	 *
@@ -1384,6 +1417,7 @@ class AIOWPSecurity_Utility {
 			$aio_wp_security->configs->set_value('aiowps_banned_ip_addresses', $banned_ip_data);
 			$aio_wp_security->configs->save_config();
 
+			$aiowps_firewall_config->set_value('aiowps_enable_blacklisting', '1');
 			$aiowps_firewall_config->set_value('aiowps_blacklist_ips', $validated_ip_list_array);
 		}
 	}
@@ -1531,6 +1565,40 @@ class AIOWPSecurity_Utility {
 			$result = unserialize($serialized_data, array('allowed_classes' => $allowed_classes, 'max_depth' => $max_depth)); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.unserialize_optionsFound -- This is the method used to unserialize data instead of the default unserialize method 
 		}
 		return $result;
+	}
+	
+	/**
+	 * Checks if the incoming request IP is from a genuine search bot
+	 * Currently caters for Google, Bing, Yahoo
+	 *
+	 * @global AIOWPS\Firewall\Config $aiowps_firewall_config
+	 *
+	 * @return bool
+	 */
+	public static function is_genuine_search_bot() {
+		global $aiowps_firewall_config;
+		
+		$user_agent = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- PCP warning. Sanitizing is not required, as we validate the raw input.
+		if (empty($user_agent)) return false;
+
+		$bots = AIOS_Abstracted_Ids::get_bots();
+
+		foreach ($bots as $bot) {
+			if (preg_match('/' . $bot['user_agent'] . '/i', $user_agent)) {
+				if ('Googlebot' == $bot['user_agent']) {
+					$googlebot_ips = $aiowps_firewall_config->get_value('aiowps_googlebot_ip_ranges');
+					if (AIOS_Helper::is_user_ip_address_within_list($googlebot_ips)) return true;
+				} elseif ('bingbot' == $bot['user_agent']) {
+					$bingbot_ips = $aiowps_firewall_config->get_value('aiowps_bingbot_ip_ranges');
+					if (AIOS_Helper::is_user_ip_address_within_list($bingbot_ips)) return true;
+				}
+				$ip = AIOWPSecurity_Utility_IP::get_user_ip_address();
+				$host_name = gethostbyaddr($ip); // let's get the internet hostname using the given IP address
+				$host_ip = gethostbyname($host_name); // Reverse lookup - let's get the IP using the name
+				return ($host_ip == $ip) && (preg_match('/' . $bot['host_name'] . '/i', $host_name));
+			}
+		}
+		return false; // not one of the search bots
 	}
 
 	/**

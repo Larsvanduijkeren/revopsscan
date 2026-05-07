@@ -42,7 +42,7 @@ class AIOWPSecurity_List_Blocked_IP extends AIOWPSecurity_List_Table {
 	 */
 	public function column_id($item) {
 		$actions = array(
-			'unblock' => '<a href="" class="aios-unblock-permanent-ip" data-id="'.esc_attr($item['id']).'" data-message="'.esc_js(__('Are you sure you want to unblock this IP address?', 'all-in-one-wp-security-and-firewall')).'">Unblock</a>',
+			'unblock' => '<a href="" class="aios-unblock-permanent-ip" data-id="'.esc_attr($item['id']).'" data-message="'.esc_attr__('Are you sure you want to unblock this IP address?', 'all-in-one-wp-security-and-firewall').'">' . esc_html__('Unblock', 'all-in-one-wp-security-and-firewall') . '</a>',
 		);
 
 		//Return the user_login contents

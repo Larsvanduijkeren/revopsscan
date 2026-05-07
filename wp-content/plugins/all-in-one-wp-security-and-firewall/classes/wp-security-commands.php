@@ -99,6 +99,7 @@ class AIOWPSecurity_Commands {
 	 */
 	public function dismiss_notice($data) {
 		global $aio_wp_security;
+		global $aiowps_firewall_config;
 
 		$time_now = $aio_wp_security->notices->get_time_now();
 		
@@ -126,6 +127,7 @@ class AIOWPSecurity_Commands {
 		} elseif ('dismiss_ip_blacklist_notice' == $data['notice']) {
 			if (isset($data['turn_it_back_on']) && '1' == $data['turn_it_back_on']) {
 				$aio_wp_security->configs->set_value('aiowps_enable_blacklisting', '1');
+				$aiowps_firewall_config->set_value('aiowps_enable_blacklisting', '1');
 				AIOWPSecurity_Configure_Settings::set_blacklist_ip_firewall_configs();
 				AIOWPSecurity_Configure_Settings::set_user_agent_firewall_configs();
 			}
@@ -147,8 +149,8 @@ class AIOWPSecurity_Commands {
 				}
 
 				$aio_wp_security->configs->delete_value('aiowps_firewall_active_upgrade');
-		} elseif ('php_56_eol_dismiss_forever' == $data['notice']) {
-			$aio_wp_security->configs->set_value('php_56_eol_dismiss_forever', $time_now + (100 * 365.25 * 86400));
+		} elseif ('php_73_eol_dismiss_forever' == $data['notice']) {
+			$aio_wp_security->configs->set_value('php_73_eol_dismiss_forever', $time_now + (100 * 365.25 * 86400));
 		}
 		
 

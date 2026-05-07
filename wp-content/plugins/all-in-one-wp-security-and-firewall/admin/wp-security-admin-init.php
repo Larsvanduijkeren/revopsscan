@@ -380,17 +380,18 @@ class AIOWPSecurity_Admin_Init {
 				'maintenance_mode_disabled' => __('Maintenance mode is currently disabled.', 'all-in-one-wp-security-and-firewall'),
 			)
 		);
-		wp_register_script('aiowpsec-pw-tool-js', AIO_WP_SECURITY_URL. '/js/password-strength-tool.js', array('jquery'), AIO_WP_SECURITY_VERSION, true); // We will enqueue this in the user acct menu class
+		wp_register_script('aiowpsec-pw-tool-js', AIO_WP_SECURITY_URL. '/js/password-strength-tool.js', array('jquery', 'zxcvbn-async'), AIO_WP_SECURITY_VERSION, true); // We will enqueue this in the user acct menu class
 		wp_localize_script('aiowpsec-pw-tool-js',
 			'aios_pwtool_trans',
 			array(
-				'years' => __('year(s)', 'all-in-one-wp-security-and-firewall'),
-				'months' => __('month(s)', 'all-in-one-wp-security-and-firewall'),
-				'days' => __('day(s)', 'all-in-one-wp-security-and-firewall'),
-				'hours' => __('hour(s)', 'all-in-one-wp-security-and-firewall'),
-				'minutes' => __('minute(s)', 'all-in-one-wp-security-and-firewall'),
-				'seconds' => __('second(s)', 'all-in-one-wp-security-and-firewall'),
-				'less_than_one_second' => __('less than one second', 'all-in-one-wp-security-and-firewall')
+				'years'               => __('year(s)', 'all-in-one-wp-security-and-firewall'),
+				'months'              => __('month(s)', 'all-in-one-wp-security-and-firewall'),
+				'days'                => __('day(s)', 'all-in-one-wp-security-and-firewall'),
+				'hours'               => __('hour(s)', 'all-in-one-wp-security-and-firewall'),
+				'minutes'             => __('minute(s)', 'all-in-one-wp-security-and-firewall'),
+				'seconds'             => __('second(s)', 'all-in-one-wp-security-and-firewall'),
+				'centuries'           => __('centuries', 'all-in-one-wp-security-and-firewall'),
+				'less_than_a_second'  => __('less than a second', 'all-in-one-wp-security-and-firewall'),
 			)
 		);
 	}
@@ -426,9 +427,10 @@ class AIOWPSecurity_Admin_Init {
 	 */
 	public function display_footer_review_message() {
 		$message = sprintf(
-			/* translators: 1: Product Name, 2: Rating, 3: Trustpilot URL, 4: G2 URL */
-			__('Enjoyed %1$s? Please leave us a %2$s rating on %3$s or %4$s', 'all-in-one-wp-security-and-firewall').' '.__('We really appreciate your support!', 'all-in-one-wp-security-and-firewall'),
-			'<b>' . htmlspecialchars('All In One Security') . '</b>',
+		/* translators: 1: is the plugin name, 2: the star rating (HTML), 3: URL for Trustpilot, 4: URL for G2.com. */
+			esc_html__('Enjoyed %1$s? Please leave us a %2$s rating on %3$s or %4$s.', 'all-in-one-wp-security-and-firewall') . ' ' .
+			esc_html__('We really appreciate your support!', 'all-in-one-wp-security-and-firewall'),
+			'<strong>All-In-One Security</strong>',
 			'<span style="color:#2271b1">&starf;&starf;&starf;&starf;&starf;</span>',
 			'<a href="https://uk.trustpilot.com/review/aiosplugin.com" target="_blank">Trustpilot</a>',
 			'<a href="https://www.g2.com/products/all-in-one-wp-security-firewall/reviews" target="_blank">G2.com</a>'
