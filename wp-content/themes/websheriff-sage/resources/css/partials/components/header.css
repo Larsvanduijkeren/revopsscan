@@ -80,7 +80,7 @@ header.header {
     }
 
     .logo {
-      height: 36px;
+      height: 30px;
       flex-shrink: 0;
       flex-grow: 0;
       display: block;
@@ -99,6 +99,7 @@ header.header {
     .logo-secondary {
       position: relative;
       padding-left: 20px;
+      height: 45px;
 
       &::before {
         content: '';
@@ -584,11 +585,12 @@ header.header {
       }
 
       .logo {
-        height: 26px;
+        height: 24px;
       }
 
       .logo-secondary {
         padding-left: 12px;
+        height: 35px;
 
         &::before {
           height: 70%;
