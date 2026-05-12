@@ -53,7 +53,8 @@ function rocket_admin_bar( $wp_admin_bar ) {
 		$wp_admin_bar->add_menu(
 			[
 				'id'    => 'wp-rocket',
-				'title' => WP_ROCKET_PLUGIN_NAME,
+				// This filter is documented in inc/Engine/Admin/Settings/Subscriber.php.
+				'title' => wpm_apply_filters_typed( 'string', 'rocket_menu_title', WP_ROCKET_PLUGIN_NAME, 'adminbar' ),
 				'href'  => current_user_can( 'rocket_manage_options' ) ? admin_url( 'options-general.php?page=' . WP_ROCKET_PLUGIN_SLUG ) : false,
 			]
 		);
@@ -88,7 +89,7 @@ function rocket_admin_bar( $wp_admin_bar ) {
 					[
 						'parent' => 'wp-rocket',
 						'id'     => 'purge-all',
-						'title'  => (bool) get_rocket_option( 'manual_preload', false ) ? __( 'Clear and preload cache', 'rocket' ) : __( 'Clear cache', 'rocket' ),
+						'title'  => (bool) get_rocket_option( 'manual_preload', false ) ? __( 'Clear and Preload Cache', 'rocket' ) : __( 'Clear Cache', 'rocket' ),
 					]
 				);
 
@@ -151,7 +152,7 @@ function rocket_admin_bar( $wp_admin_bar ) {
 					[
 						'parent' => 'wp-rocket',
 						'id'     => 'purge-all',
-						'title'  => (bool) get_rocket_option( 'manual_preload', false ) ? __( 'Clear and preload cache', 'rocket' ) : __( 'Clear cache', 'rocket' ),
+						'title'  => (bool) get_rocket_option( 'manual_preload', false ) ? __( 'Clear and Preload Cache', 'rocket' ) : __( 'Clear Cache', 'rocket' ),
 						'href'   => wp_nonce_url( admin_url( 'admin-post.php?action=' . $action . '&type=all' . $referer ), $action . '_all' ),
 					]
 				);

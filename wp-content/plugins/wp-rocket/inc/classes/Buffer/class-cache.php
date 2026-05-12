@@ -65,8 +65,6 @@ class Cache extends Abstract_Buffer {
 		$this->cache_dir_path = rtrim( $args['cache_dir_path'], '/' ) . '/';
 
 		parent::__construct( $tests );
-
-		$this->log( 'CACHING PROCESS STARTED.', [], 'info' );
 	}
 
 	/** ----------------------------------------------------------------------------------------- */
@@ -584,7 +582,15 @@ class Cache extends Abstract_Buffer {
 
 		$detect = new \WP_Rocket_Mobile_Detect();
 
-		if ( $detect->isMobile() && ! $detect->isTablet() && 'desktop' === $cache_mobile_files_tablet || ( $detect->isMobile() || $detect->isTablet() ) && 'mobile' === $cache_mobile_files_tablet ) {
+		if (
+			( $detect->isMobile() && ! $detect->isTablet() && 'desktop' === $cache_mobile_files_tablet )
+			||
+			(
+				( $detect->isMobile() || $detect->isTablet() )
+				&&
+				'mobile' === $cache_mobile_files_tablet
+			)
+		) {
 				return $filename .= '-mobile';
 		}
 

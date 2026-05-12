@@ -5,7 +5,9 @@ use WP_Rocket\Dependencies\Minify\JS as MinifyJS;
 use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Engine\Optimization\AssetsLocalCache;
 use WP_Rocket\Engine\Optimization\DeferJS\DeferJS;
+use WP_Rocket\Engine\Optimization\DynamicLists\DynamicLists;
 use WP_Rocket\Engine\Optimization\Minify\ProcessorInterface;
+use WP_Rocket\Engine\Support\CommentTrait;
 use WP_Rocket\Logger\Logger;
 
 /**
@@ -14,6 +16,8 @@ use WP_Rocket\Logger\Logger;
  * @since 3.1
  */
 class Combine extends AbstractJSOptimization implements ProcessorInterface {
+	use CommentTrait;
+
 	/**
 	 * Minifier instance
 	 *
@@ -55,13 +59,20 @@ class Combine extends AbstractJSOptimization implements ProcessorInterface {
 	 *
 	 * @since 3.1
 	 *
-	 * @param Options_Data     $options     Plugin options instance.
-	 * @param MinifyJS         $minifier    Minifier instance.
-	 * @param AssetsLocalCache $local_cache Assets local cache instance.
-	 * @param DeferJS          $defer_js    Defer JS instance.
+	 * @param Options_Data     $options       Plugin options instance.
+	 * @param MinifyJS         $minifier      Minifier instance.
+	 * @param AssetsLocalCache $local_cache   Assets local cache instance.
+	 * @param DeferJS          $defer_js      Defer JS instance.
+	 * @param DynamicLists     $dynamic_lists  Dynamic list instance.
 	 */
-	public function __construct( Options_Data $options, MinifyJS $minifier, AssetsLocalCache $local_cache, DeferJS $defer_js ) {
-		parent::__construct( $options, $local_cache );
+	public function __construct(
+		Options_Data $options,
+		MinifyJS $minifier,
+		AssetsLocalCache $local_cache,
+		DeferJS $defer_js,
+		DynamicLists $dynamic_lists
+	) {
+		parent::__construct( $options, $local_cache, $dynamic_lists );
 
 		$this->minifier          = $minifier;
 		$this->excluded_defer_js = implode( '|', $defer_js->get_excluded() );
@@ -76,7 +87,6 @@ class Combine extends AbstractJSOptimization implements ProcessorInterface {
 	 * @return string
 	 */
 	public function optimize( $html ) {
-		Logger::info( 'JS COMBINE PROCESS STARTED.', [ 'js combine process' ] );
 
 		$html_nocomments = $this->hide_comments( $html );
 		$scripts         = $this->find( '<script.*<\/script>', $html_nocomments );
@@ -86,28 +96,12 @@ class Combine extends AbstractJSOptimization implements ProcessorInterface {
 			return $html;
 		}
 
-		Logger::debug(
-			'Found ' . count( $scripts ) . ' `<script>` tag(s).',
-			[
-				'js combine process',
-				'tags' => $scripts,
-			]
-		);
-
 		$combine_scripts = $this->parse( $scripts );
 
 		if ( empty( $combine_scripts ) ) {
 			Logger::debug( 'No `<script>` tags to optimize.', [ 'js combine process' ] );
 			return $html;
 		}
-
-		Logger::debug(
-			count( $combine_scripts ) . ' `<script>` tag(s) remaining.',
-			[
-				'js combine process',
-				'tags' => $combine_scripts,
-			]
-		);
 
 		$content = $this->get_content();
 
@@ -139,15 +133,7 @@ class Combine extends AbstractJSOptimization implements ProcessorInterface {
 			$html = str_replace( $script[0], '', $html );
 		}
 
-		Logger::info(
-			'Combined JS file successfully added.',
-			[
-				'js combine process',
-				'url' => $minify_url,
-			]
-		);
-
-		return $html;
+		return $this->add_meta_comment( 'minify_concatenate_js', $html );
 	}
 
 	/**

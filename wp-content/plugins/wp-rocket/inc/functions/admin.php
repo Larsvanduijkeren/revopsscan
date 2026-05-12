@@ -270,7 +270,7 @@ function rocket_after_update_array_options( $old_value, $value ) {
  * @since 2.10
  * @author Remy Perona
  *
- * @return true if a mobile plugin in the list is active, false otherwise.
+ * @return bool true if a mobile plugin in the list is active, false otherwise.
  **/
 function rocket_is_mobile_plugin_active() {
 	return \WP_Rocket\Subscriber\Third_Party\Plugins\Mobile_Subscriber::is_mobile_plugin_active();
@@ -327,7 +327,7 @@ function rocket_check_json_filetype( $wp_check_filetype_and_ext, $file, $filenam
 
 	$finfo     = finfo_open( FILEINFO_MIME_TYPE );
 	$real_mime = finfo_file( $finfo, $file );
-	finfo_close( $finfo );
+	finfo_close( $finfo ); // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated
 
 	if ( 'text/plain' !== $real_mime ) {
 		return $wp_check_filetype_and_ext;
@@ -425,6 +425,15 @@ function rocket_data_collection_preview_table() {
 	$html .= '</td>';
 	$html .= '<td>';
 	$html .= sprintf( '<em>%s</em>', __( 'Which WP Rocket settings are active', 'rocket' ) );
+	$html .= '</td>';
+	$html .= '</tr>';
+
+	$html .= '<tr>';
+	$html .= '<td class="column-primary">';
+	$html .= sprintf( '<strong>%s</strong>', __( 'Anonymized WP Rocket statistics:', 'rocket' ) );
+	$html .= '</td>';
+	$html .= '<td>';
+	$html .= sprintf( '<em>%s</em>', __( 'How WP Rocket features function and perform.', 'rocket' ) );
 	$html .= '</td>';
 	$html .= '</tr>';
 
@@ -550,6 +559,16 @@ function rocket_get_license_type( $customer_data ) {
 		return __( 'Unavailable', 'rocket' );
 	}
 
+	if ( isset( $customer_data->licence->is_revoked ) && $customer_data->licence->is_revoked ) {
+		return __( 'Revoked', 'rocket' );
+	}
+
+	// The licence name directly from User endpoint.
+	if ( ! empty( $customer_data->licence->name ) ) {
+		return esc_html( $customer_data->licence->name );
+	}
+
+	// Fallback to licence account.
 	if ( 1 <= $customer_data->licence_account
 		&&
 		$customer_data->licence_account < 3
@@ -560,4 +579,36 @@ function rocket_get_license_type( $customer_data ) {
 	}
 
 	return 'Plus';
+}
+
+/**
+ * Fires callback attached to a deprecated filter hook.
+ *
+ * @param string $new_hook    The hook that should have been used.
+ * @param array  $args        Array of additional function arguments to be passed.
+ * @param string $version     The version of WPR that deprecated the hook.
+ * @param string $old_hook    Name of the original filter hook.
+ *
+ * @return mixed The filtered value after all hooked functions are applied to it.
+ */
+function rocket_apply_filter_and_deprecated( string $new_hook, array $args, string $version, string $old_hook ) {
+	$filtered_value = apply_filters_deprecated( $old_hook, $args, $version, $new_hook );
+	$args[0]        = $filtered_value;
+
+	return apply_filters_ref_array( $new_hook, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+}
+
+/**
+ * Fires callback attached to a deprecated action hook.
+ *
+ * @param string $new_hook    The hook that should have been used.
+ * @param array  $args        Array of additional function arguments to be passed.
+ * @param string $version     The version of WPR that deprecated the hook.
+ * @param string $old_hook    The name of the action hook.
+ *
+ * @return void
+ */
+function rocket_do_action_and_deprecated( string $new_hook, array $args, string $version, string $old_hook ): void {
+	do_action_deprecated( $old_hook, $args, $version, $new_hook );
+	do_action_ref_array( $new_hook, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 }
